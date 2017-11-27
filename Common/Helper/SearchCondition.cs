@@ -11,7 +11,9 @@ namespace Common.Helper
     public class SearchCondition
     {
         #region Field
+
         private Hashtable conditionTable = new Hashtable();  //查询条件
+
         #endregion
 
         #region Property

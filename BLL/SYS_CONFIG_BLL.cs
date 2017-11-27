@@ -83,7 +83,7 @@ namespace BLL
         /// </summary>
         /// <param name="dic"></param>
         /// <returns></returns>
-        public List<SYS_CONFIG> GetList(Dictionary<object, object> condic)
+        public List<SYS_CONFIG> GetList(SYS_CONFIG querymodel)
         {
             List<SYS_CONFIG> list = null;
             using (var dbcontext = DbFactory.Create())
@@ -173,7 +173,7 @@ namespace BLL
             {
                 using (var dbcontext = DbFactory.Create())
                 {
-                    //待补充 读取字典 包装linq查询条件
+                    //待补充
                 }
             }
             catch (Exception ex)
@@ -190,7 +190,7 @@ namespace BLL
         /// <param name="exp"></param>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public bool BulkRemove(Dictionary<object, object> condic)
+        public bool BulkRemove(SYS_CONFIG deletemodel)
         {
             bool success = false;
             try
@@ -237,8 +237,8 @@ namespace BLL
         /// <summary>
         /// 按条件更新
         /// </summary>
-        /// <param name="exp"></param>
-        /// <param name="condition"></param>
+        /// <param name="exp">更新</param>
+        /// <param name="condition">条件</param>
         /// <returns></returns>
         public bool Update(Dictionary<string, object> expdic, Dictionary<string, object> condic)
         {
@@ -283,7 +283,8 @@ namespace BLL
 
                         //if (!string.IsNullOrWhiteSpace(modle.PlayerNickname))
                         //{
-                        //    condition.AddCondition("a.PlayerNickname", modle.PlayerNickname, SqlOperator.Like, true);                        
+                        
+                        //    condition.AddCondition("a.PlayerNickname", modle.PlayerNickname, SqlOperator.Like, true);
                         //}
 
                         #endregion
