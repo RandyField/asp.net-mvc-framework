@@ -41,6 +41,13 @@ namespace IDAL
         /// <param name="conditions"></param>
         void Delete<T>(Expression<Func<T, bool>> conditions) where T : class;
 
+        /// <summary>
+        /// 按条件批量删除
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="exp"></param>
+        void BulkDelete<T>(Expression<Func<T, bool>> exp) where T : class;
+
         #endregion
 
         #region 修改

@@ -70,7 +70,7 @@ namespace BLL
                     Expression<Func<SYS_CONFIG, bool>> exp = a => a.ID == id;
                     model = dbcontext.Get(exp);
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     Logger.Error(string.Format("SYS_CONFIG_BLL 根据主键获取实体异常,异常信息:{0}", ex.ToString()));
                 }
@@ -90,13 +90,16 @@ namespace BLL
             {
                 try
                 {
-                    
+                    int id = Convert.ToInt32(querymodel.ID);
+                    Expression<Func<SYS_CONFIG, bool>> exp = a => a.ID == id;
+                    Expression<Func<SYS_CONFIG, bool>> temp = a => 1 == 1;
+                    exp = CompileLinqSearch.AndAlso(exp, temp);
+                    list = dbcontext.Find(exp);
                 }
                 catch (Exception ex)
                 {
                     Logger.Error(string.Format("SYS_CONFIG_BLL 根据条件获取列表,异常信息:{0}", ex.ToString()));
                 }
-                //待补充 读取字典 包装linq查询条件
             }
             return list;
         }
@@ -109,29 +112,23 @@ namespace BLL
         public bool Add(SYS_CONFIG model)
         {
             bool success = false;
-            try
-            {
-                using (var dbcontext = DbFactory.Create())
-                {
-                    try
-                    {
-                        dbcontext.Insert(model);
-                        dbcontext.Save();
-                        success = true;
-                    }
-                    catch (Exception ex)
-                    {
 
-                        throw;
-                    }
-                  
-                }
-            }
-            catch (Exception ex)
+            using (var dbcontext = DbFactory.Create())
             {
-                success = false;
-                Logger.Error(string.Format("SYS_CONFIG_BLL 新增异常,异常信息:{0}", ex.ToString()));
+                try
+                {
+                    dbcontext.Insert(model);
+                    dbcontext.Save();
+                    success = true;
+                }
+                catch (Exception ex)
+                {
+
+                    Logger.Error(string.Format("SYS_CONFIG_BLL 新增记录异常,异常信息:{0}", ex.ToString()));
+                }
+
             }
+
             return success;
         }
 
@@ -143,20 +140,22 @@ namespace BLL
         public bool Remove(SYS_CONFIG model)
         {
             bool success = false;
-            try
+
+            using (var dbcontext = DbFactory.Create())
             {
-                using (var dbcontext = DbFactory.Create())
+                try
                 {
                     dbcontext.Insert(model);
                     dbcontext.Save();
                     success = true;
                 }
+                catch (Exception ex)
+                {
+                    success = false;
+                    Logger.Error(string.Format("SYS_CONFIG_BLL 删除记录异常,异常信息:{0}", ex.ToString()));
+                }
             }
-            catch (Exception ex)
-            {
-                success = false;
-                Logger.Error(string.Format("SYS_CONFIG_BLL 删除异常,异常信息:{0}", ex.ToString()));
-            }
+
             return success;
         }
 
@@ -165,22 +164,27 @@ namespace BLL
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public bool Remove(string id)
+        public bool Remove(string permissionId)
         {
-
             bool success = false;
-            try
+
+            using (var dbcontext = DbFactory.Create())
             {
-                using (var dbcontext = DbFactory.Create())
+                try
                 {
-                    //待补充
+                    int id = Convert.ToInt32(permissionId);
+                    Expression<Func<SYS_CONFIG, bool>> exp = a => a.ID == id;
+                    dbcontext.Delete(exp);
+                    dbcontext.Save();
+                    success = true;
+                }
+                catch (Exception ex)
+                {
+                    success = false;
+                    Logger.Error(string.Format("SYS_CONFIG_BLL 根据id删除异常,异常信息:{0}", ex.ToString()));
                 }
             }
-            catch (Exception ex)
-            {
-                success = false;
-                Logger.Error(string.Format("SYS_CONFIG_BLL 删除异常,异常信息:{0}", ex.ToString()));
-            }
+
             return success;
         }
 
@@ -193,18 +197,25 @@ namespace BLL
         public bool BulkRemove(SYS_CONFIG deletemodel)
         {
             bool success = false;
-            try
+
+            using (var dbcontext = DbFactory.Create())
             {
-                using (var dbcontext = DbFactory.Create())
+                try
                 {
-                    //待补充 读取字典 包装linq查询条件
+                    int id = Convert.ToInt32(deletemodel.ID);
+                    Expression<Func<SYS_CONFIG, bool>> exp = a => a.ID == id;
+                    Expression<Func<SYS_CONFIG, bool>> temp = a => 1 == 1;
+                    exp = CompileLinqSearch.AndAlso(exp, temp);
+                    dbcontext.BulkDelete(exp);
+                    success = true;
+                }
+                catch (Exception ex)
+                {
+                    success = false;
+                    Logger.Error(string.Format("SYS_CONFIG_BLL 根据条件获取列表,异常信息:{0}", ex.ToString()));
                 }
             }
-            catch (Exception ex)
-            {
-                success = false;
-                Logger.Error(string.Format("SYS_CONFIG_BLL 按条件删除异常,异常信息:{0}", ex.ToString()));
-            }
+
             return success;
         }
 
@@ -216,21 +227,21 @@ namespace BLL
         public bool Edit(SYS_CONFIG model)
         {
             bool success = false;
-            try
+
+            using (var dbcontext = DbFactory.Create())
             {
-                using (var dbcontext = DbFactory.Create())
+                try
                 {
                     dbcontext.Update(model);
                     dbcontext.Save();
                     success = true;
                 }
+                catch (Exception ex)
+                {
+                    success = false;
+                    Logger.Error(string.Format("SYS_CONFIG_BLL 编辑记录异常,异常信息:{0}", ex.ToString()));
+                }
             }
-            catch (Exception ex)
-            {
-                success = false;
-                Logger.Error(string.Format("SYS_CONFIG_BLL 编辑记录异常,异常信息:{0}", ex.ToString()));
-            }
-
             return success;
         }
 
@@ -240,22 +251,22 @@ namespace BLL
         /// <param name="exp">更新</param>
         /// <param name="condition">条件</param>
         /// <returns></returns>
-        public bool Update(Dictionary<string, object> expdic, Dictionary<string, object> condic)
+        public bool Update(Expression<Func<SYS_CONFIG, bool>> where, Dictionary<string, object> dic)
         {
             bool success = false;
-            try
+
+            using (var dbcontext = DbFactory.Create())
             {
-                using (var dbcontext = DbFactory.Create())
+                try
                 {
-                    //待补充 读取字典 包装linq查询条件
+                    dbcontext.Update(where, dic);
+                }
+                catch (Exception ex)
+                {
+                    success = false;
+                    Logger.Error(string.Format("SYS_CONFIG_BLL 按条件更新,异常信息:{0}", ex.ToString()));
                 }
             }
-            catch (Exception ex)
-            {
-                success = false;
-                Logger.Error(string.Format("SYS_CONFIG_BLL 按条件更新,异常信息:{0}", ex.ToString()));
-            }
-
             return success;
         }
 
@@ -272,9 +283,10 @@ namespace BLL
         public DataTable PageQuery(SYS_CONFIG model, int pageIndex, int pageSize, out int recordCount, out int pageCount)
         {
             DataTable dt = new DataTable();
-            try
+
+            using (var dbcontext = DbFactory.Create())
             {
-                using (var dbcontext = DbFactory.Create())
+                try
                 {
                     SearchCondition condition = new SearchCondition();
                     if (model != null)
@@ -283,7 +295,7 @@ namespace BLL
 
                         //if (!string.IsNullOrWhiteSpace(modle.PlayerNickname))
                         //{
-                        
+
                         //    condition.AddCondition("a.PlayerNickname", modle.PlayerNickname, SqlOperator.Like, true);
                         //}
 
@@ -308,13 +320,14 @@ namespace BLL
 
                     dt = dbcontext.PageQuery(pager, out recordCount, out pageCount);
                 }
+                catch (Exception ex)
+                {
+                    recordCount = 0;
+                    pageCount = 0;
+                    Logger.Error(string.Format("Zhp_GameCount_BLL 分页查询异常，异常信息：{0}", ex.ToString()));
+                }
             }
-            catch (Exception ex)
-            {
-                recordCount = 0;
-                pageCount = 0;
-                Logger.Error(string.Format("Zhp_GameCount_BLL 分页查询异常，异常信息：{0}", ex.ToString()));
-            }
+
             return dt;
         }
         #endregion
