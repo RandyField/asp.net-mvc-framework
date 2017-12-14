@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="web.zip" />
     <None Include="Workspace.sws" />
     <None Include="数据权限控制设计.pdm" />
     <None Include="权限研究思路-数据库设计.pdm" />
