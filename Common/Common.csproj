@@ -75,6 +75,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helper\SqlHelper.cs" />
     <Compile Include="Helper\SqlHelperParameterCache.cs" />
+    <Compile Include="WebHelper\CacheHelper.cs" />
+    <Compile Include="WebHelper\CookieHelper.cs" />
+    <Compile Include="WebHelper\SessionHelper.cs" />
+    <Compile Include="WebHelper\Tree.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EFModel\EFModel.csproj">

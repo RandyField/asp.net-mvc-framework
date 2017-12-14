@@ -52,6 +52,8 @@
     <None Include="权限系统设计-sqlserver.pdm" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Randy Admin数据库设计.sql" />
+    <Content Include="数据-设计脚本.sql" />
     <Content Include="数据权限控制设计.pdb" />
     <Content Include="权限研究思路-数据库设计.pdb" />
     <Content Include="权限研究思路.txt" />
