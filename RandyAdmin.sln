@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{DC206E30-27F3-4A39-A4BF-7AAC221374E6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{78035F23-A977-419B-A681-30C46817A1B5}"
@@ -12,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDAL", "IDAL\IDAL.csproj", "{69912847-0147-4C85-8825-836C3200BFDB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doc", "Doc\Doc.csproj", "{70A7D36A-BAB3-4170-841C-120B48AE2CA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{B0CA864E-A5D0-4D5A-B993-C47394056ED0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,8 +60,17 @@ Global
 		{70A7D36A-BAB3-4170-841C-120B48AE2CA7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{70A7D36A-BAB3-4170-841C-120B48AE2CA7}.Test|Any CPU.ActiveCfg = Release|Any CPU
 		{70A7D36A-BAB3-4170-841C-120B48AE2CA7}.Test|Any CPU.Build.0 = Release|Any CPU
+		{B0CA864E-A5D0-4D5A-B993-C47394056ED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0CA864E-A5D0-4D5A-B993-C47394056ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0CA864E-A5D0-4D5A-B993-C47394056ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0CA864E-A5D0-4D5A-B993-C47394056ED0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0CA864E-A5D0-4D5A-B993-C47394056ED0}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{B0CA864E-A5D0-4D5A-B993-C47394056ED0}.Test|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FDA51BBB-7035-45A5-838E-B8EAF2A425B3}
 	EndGlobalSection
 EndGlobal
