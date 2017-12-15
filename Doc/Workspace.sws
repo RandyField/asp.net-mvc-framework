@@ -6,7 +6,7 @@
 	<Local Expanded="Yes">
 		<Model ID="{2D895194-B46E-45A0-B206-4B133E064165}" Loaded="No" Name="功能权限控制设计" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="权限研究思路-数据库设计.pdm"/>
 		<Model ID="{1FF595F2-A774-4C14-8BC5-07C997D0C79D}" Loaded="No" Name="数据权限控制设计" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="数据权限控制设计.pdm"/>
-		<Model Expanded="Yes" ID="{A350A022-0611-48B0-BB10-E43B2975409D}" Name="权限系统设计-sqlserver" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="权限系统设计-sqlserver.pdm"/>
+		<Model Expanded="Yes" ID="{A350A022-0611-48B0-BB10-E43B2975409D}" Name="权限系统设计-sqlserver" Selected="Yes" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="权限系统设计-sqlserver.pdm"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>
