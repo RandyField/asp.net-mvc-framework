@@ -1,4 +1,7 @@
-﻿<div id="navbar" class="navbar navbar-default          ace-save-state">
+﻿@{
+    var logininfo = this.ViewData["Logininfo"] != null ? this.ViewData["Logininfo"] as EFModel.SYS_LOGIN : new EFModel.SYS_LOGIN();
+}
+<div id="navbar" class="navbar navbar-default          ace-save-state">
     <div class="navbar-container ace-save-state" id="navbar-container">
 
         <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
@@ -15,7 +18,7 @@
             <a href="index.html" class="navbar-brand">
                 <small>
                     <i class="fa fa-leaf"></i>
-                    RandyAdmin后台管理系统(ACE)
+                    Randy后台管理系统(ASP.NET+MVC+EF+ACE)
                 </small>
             </a>
         </div>
@@ -282,7 +285,7 @@
                         <img class="nav-user-photo" src="assets/images/avatars/user.jpg" alt="Jason's Photo" />
                         <span class="user-info">
                             <small>Welcome,</small>
-                            Jason
+                            @logininfo.UserName
                         </span>
 
                         <i class="ace-icon fa fa-caret-down"></i>
@@ -292,23 +295,23 @@
                         <li>
                             <a href="#">
                                 <i class="ace-icon fa fa-cog"></i>
-                                Settings
+                                设置
                             </a>
                         </li>
 
                         <li>
                             <a href="profile.html">
                                 <i class="ace-icon fa fa-user"></i>
-                                Profile
+                                个人信息
                             </a>
                         </li>
 
                         <li class="divider"></li>
 
                         <li>
-                            <a href="#">
+                            <a href="/Login/Logout">
                                 <i class="ace-icon fa fa-power-off"></i>
-                                Logout
+                                退出
                             </a>
                         </li>
                     </ul>

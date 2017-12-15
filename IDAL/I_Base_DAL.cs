@@ -101,6 +101,9 @@ namespace IDAL
         /// <returns></returns>
         List<T> SqlQuery<T>(string sql);
 
+
+        List<T> SqlQuery<T>(string sql, DbParameter[] args);
+        
         /// <summary>
         /// 执行sql命令
         /// </summary>

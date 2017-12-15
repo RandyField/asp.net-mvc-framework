@@ -1,0 +1,516 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RandyAdminACEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="PLATFORM_DEPARTMENT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartName" Type="varchar" MaxLength="32" />
+          <Property Name="DepartCode" Type="varchar" MaxLength="16" />
+          <Property Name="ParentCode" Type="varchar" MaxLength="16" />
+          <Property Name="Sort" Type="int" />
+          <Property Name="CreateUserID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SYS_BUG_FEEDBACK">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="32" />
+          <Property Name="UserIp" Type="varchar" MaxLength="50" />
+          <Property Name="BugInfo" Type="varchar(max)" />
+          <Property Name="BugReply" Type="varchar(max)" />
+          <Property Name="FeedBackDate" Type="datetime" />
+          <Property Name="SolveMan" Type="varchar" MaxLength="32" />
+          <Property Name="SolveDate" Type="datetime" />
+          <Property Name="IsShow" Type="char" MaxLength="1" />
+          <Property Name="State" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="SYS_BUTTON">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="16" />
+          <Property Name="Code" Type="varchar" MaxLength="8" />
+          <Property Name="IconScript" Type="text" />
+          <Property Name="Sort" Type="int" />
+          <Property Name="CreateUserID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="Description" Type="text" />
+        </EntityType>
+        <EntityType Name="SYS_LOGIN">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="32" />
+          <Property Name="UserPassword" Type="varchar" MaxLength="64" />
+          <Property Name="UpdateUserID" Type="int" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="CreateUserID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="State" Type="int" />
+        </EntityType>
+        <EntityType Name="SYS_LOGIN_LOG">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="16" />
+          <Property Name="UserIp" Type="varchar" MaxLength="50" />
+          <Property Name="City" Type="varchar" MaxLength="32" />
+          <Property Name="Success" Type="char" MaxLength="1" />
+          <Property Name="LoginDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SYS_MENU">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MenuName" Type="varchar" MaxLength="16" />
+          <Property Name="MenuCode" Type="varchar" MaxLength="8" />
+          <Property Name="ParentCode" Type="varchar" MaxLength="8" />
+          <Property Name="LinkAddress" Type="varchar" MaxLength="100" />
+          <Property Name="IconScript" Type="varchar" MaxLength="100" />
+          <Property Name="Sort" Type="int" />
+          <Property Name="CreateUserID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SYS_MENU_BUTTON">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MenuCode" Type="varchar" MaxLength="8" />
+          <Property Name="ButtonCode" Type="varchar" MaxLength="8" />
+        </EntityType>
+        <EntityType Name="SYS_OPERATE_LOG">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="32" />
+          <Property Name="UserIp" Type="varchar" MaxLength="50" />
+          <Property Name="OperateInfo" Type="varchar" MaxLength="16" />
+          <Property Name="OperateDesc" Type="varchar" MaxLength="32" />
+          <Property Name="Success" Type="char" MaxLength="1" />
+          <Property Name="OperateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SYS_ROLE">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="16" />
+          <Property Name="RoleDesc" Type="text" />
+          <Property Name="CreateUserID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateUserID" Type="int" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SYS_ROLE_MENU_BUTTON">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleID" Type="int" />
+          <Property Name="MenuCode" Type="varchar" MaxLength="8" />
+          <Property Name="ButtonCode" Type="varchar" MaxLength="8" />
+        </EntityType>
+        <EntityType Name="SYS_ROLE_USER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="RoleID" Type="int" />
+        </EntityType>
+        <EntityType Name="SYS_USER">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoginID" Type="int" />
+          <Property Name="DepartCode" Type="varchar" MaxLength="16" />
+          <Property Name="RealName" Type="varchar" MaxLength="32" />
+          <Property Name="Sex" Type="char" MaxLength="1" />
+          <Property Name="Phone" Type="varchar" MaxLength="16" />
+          <Property Name="QQ" Type="varchar" MaxLength="16" />
+          <Property Name="E-mail" Type="varchar" MaxLength="32" />
+          <Property Name="Wechat" Type="varchar" MaxLength="32" />
+          <Property Name="CreateUserID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateUserID" Type="int" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityContainer Name="RandyAdminACEModelStoreContainer">
+          <EntitySet Name="PLATFORM_DEPARTMENT" EntityType="Self.PLATFORM_DEPARTMENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_BUG_FEEDBACK" EntityType="Self.SYS_BUG_FEEDBACK" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_BUTTON" EntityType="Self.SYS_BUTTON" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_LOGIN" EntityType="Self.SYS_LOGIN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_LOGIN_LOG" EntityType="Self.SYS_LOGIN_LOG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_MENU" EntityType="Self.SYS_MENU" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_MENU_BUTTON" EntityType="Self.SYS_MENU_BUTTON" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_OPERATE_LOG" EntityType="Self.SYS_OPERATE_LOG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_ROLE" EntityType="Self.SYS_ROLE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_ROLE_MENU_BUTTON" EntityType="Self.SYS_ROLE_MENU_BUTTON" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_ROLE_USER" EntityType="Self.SYS_ROLE_USER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_USER" EntityType="Self.SYS_USER" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RandyAdminACEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="PLATFORM_DEPARTMENT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartName" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="DepartCode" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="ParentCode" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="CreateUserID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SYS_BUG_FEEDBACK">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="UserIp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BugInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BugReply" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FeedBackDate" Type="DateTime" Precision="3" />
+          <Property Name="SolveMan" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="SolveDate" Type="DateTime" Precision="3" />
+          <Property Name="IsShow" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SYS_BUTTON">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="IconScript" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="CreateUserID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SYS_LOGIN">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="UserPassword" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateUserID" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="State" Type="Int32" />
+        </EntityType>
+        <EntityType Name="SYS_LOGIN_LOG">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="UserIp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Success" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="LoginDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SYS_MENU">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MenuName" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="MenuCode" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="ParentCode" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="LinkAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IconScript" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="CreateUserID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SYS_OPERATE_LOG">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="UserIp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OperateInfo" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="OperateDesc" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Success" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="OperateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SYS_ROLE">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="RoleDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreateUserID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateUserID" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SYS_ROLE_USER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="RoleID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="SYS_USER">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoginID" Type="Int32" />
+          <Property Name="DepartCode" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="RealName" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Sex" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="QQ" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="E_mail" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Wechat" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="CreateUserID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateUserID" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="AdminEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PLATFORM_DEPARTMENT" EntityType="Self.PLATFORM_DEPARTMENT" />
+          <EntitySet Name="SYS_BUG_FEEDBACK" EntityType="Self.SYS_BUG_FEEDBACK" />
+          <EntitySet Name="SYS_BUTTON" EntityType="Self.SYS_BUTTON" />
+          <EntitySet Name="SYS_LOGIN" EntityType="Self.SYS_LOGIN" />
+          <EntitySet Name="SYS_LOGIN_LOG" EntityType="Self.SYS_LOGIN_LOG" />
+          <EntitySet Name="SYS_MENU" EntityType="Self.SYS_MENU" />
+          <EntitySet Name="SYS_OPERATE_LOG" EntityType="Self.SYS_OPERATE_LOG" />
+          <EntitySet Name="SYS_ROLE" EntityType="Self.SYS_ROLE" />
+          <EntitySet Name="SYS_ROLE_USER" EntityType="Self.SYS_ROLE_USER" />
+          <EntitySet Name="SYS_USER" EntityType="Self.SYS_USER" />
+          <EntitySet Name="SYS_MENU_BUTTON" EntityType="RandyAdminACEModel.SYS_MENU_BUTTON" />
+          <EntitySet Name="SYS_ROLE_MENU_BUTTON" EntityType="RandyAdminACEModel.SYS_ROLE_MENU_BUTTON" />
+        </EntityContainer>
+        <EntityType Name="SYS_MENU_BUTTON">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MenuCode" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="ButtonCode" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SYS_ROLE_MENU_BUTTON">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="MenuCode" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="ButtonCode" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RandyAdminACEModelStoreContainer" CdmEntityContainer="AdminEntities">
+          <EntitySetMapping Name="PLATFORM_DEPARTMENT">
+            <EntityTypeMapping TypeName="RandyAdminACEModel.PLATFORM_DEPARTMENT">
+              <MappingFragment StoreEntitySet="PLATFORM_DEPARTMENT">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DepartName" ColumnName="DepartName" />
+                <ScalarProperty Name="DepartCode" ColumnName="DepartCode" />
+                <ScalarProperty Name="ParentCode" ColumnName="ParentCode" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="CreateUserID" ColumnName="CreateUserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_BUG_FEEDBACK">
+            <EntityTypeMapping TypeName="RandyAdminACEModel.SYS_BUG_FEEDBACK">
+              <MappingFragment StoreEntitySet="SYS_BUG_FEEDBACK">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserIp" ColumnName="UserIp" />
+                <ScalarProperty Name="BugInfo" ColumnName="BugInfo" />
+                <ScalarProperty Name="BugReply" ColumnName="BugReply" />
+                <ScalarProperty Name="FeedBackDate" ColumnName="FeedBackDate" />
+                <ScalarProperty Name="SolveMan" ColumnName="SolveMan" />
+                <ScalarProperty Name="SolveDate" ColumnName="SolveDate" />
+                <ScalarProperty Name="IsShow" ColumnName="IsShow" />
+                <ScalarProperty Name="State" ColumnName="State" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_BUTTON">
+            <EntityTypeMapping TypeName="RandyAdminACEModel.SYS_BUTTON">
+              <MappingFragment StoreEntitySet="SYS_BUTTON">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="IconScript" ColumnName="IconScript" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="CreateUserID" ColumnName="CreateUserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_LOGIN">
+            <EntityTypeMapping TypeName="RandyAdminACEModel.SYS_LOGIN">
+              <MappingFragment StoreEntitySet="SYS_LOGIN">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="UpdateUserID" ColumnName="UpdateUserID" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="CreateUserID" ColumnName="CreateUserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_LOGIN_LOG">
+            <EntityTypeMapping TypeName="RandyAdminACEModel.SYS_LOGIN_LOG">
+              <MappingFragment StoreEntitySet="SYS_LOGIN_LOG">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserIp" ColumnName="UserIp" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Success" ColumnName="Success" />
+                <ScalarProperty Name="LoginDate" ColumnName="LoginDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_MENU">
+            <EntityTypeMapping TypeName="RandyAdminACEModel.SYS_MENU">
+              <MappingFragment StoreEntitySet="SYS_MENU">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="MenuCode" ColumnName="MenuCode" />
+                <ScalarProperty Name="ParentCode" ColumnName="ParentCode" />
+                <ScalarProperty Name="LinkAddress" ColumnName="LinkAddress" />
+                <ScalarProperty Name="IconScript" ColumnName="IconScript" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="CreateUserID" ColumnName="CreateUserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_OPERATE_LOG">
+            <EntityTypeMapping TypeName="RandyAdminACEModel.SYS_OPERATE_LOG">
+              <MappingFragment StoreEntitySet="SYS_OPERATE_LOG">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserIp" ColumnName="UserIp" />
+                <ScalarProperty Name="OperateInfo" ColumnName="OperateInfo" />
+                <ScalarProperty Name="OperateDesc" ColumnName="OperateDesc" />
+                <ScalarProperty Name="Success" ColumnName="Success" />
+                <ScalarProperty Name="OperateDate" ColumnName="OperateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_ROLE">
+            <EntityTypeMapping TypeName="RandyAdminACEModel.SYS_ROLE">
+              <MappingFragment StoreEntitySet="SYS_ROLE">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
+                <ScalarProperty Name="CreateUserID" ColumnName="CreateUserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UpdateUserID" ColumnName="UpdateUserID" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_ROLE_USER">
+            <EntityTypeMapping TypeName="RandyAdminACEModel.SYS_ROLE_USER">
+              <MappingFragment StoreEntitySet="SYS_ROLE_USER">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_USER">
+            <EntityTypeMapping TypeName="RandyAdminACEModel.SYS_USER">
+              <MappingFragment StoreEntitySet="SYS_USER">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
+                <ScalarProperty Name="DepartCode" ColumnName="DepartCode" />
+                <ScalarProperty Name="RealName" ColumnName="RealName" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="QQ" ColumnName="QQ" />
+                <ScalarProperty Name="E_mail" ColumnName="E-mail" />
+                <ScalarProperty Name="Wechat" ColumnName="Wechat" />
+                <ScalarProperty Name="CreateUserID" ColumnName="CreateUserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UpdateUserID" ColumnName="UpdateUserID" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_MENU_BUTTON">
+            <EntityTypeMapping TypeName="RandyAdminACEModel.SYS_MENU_BUTTON">
+              <MappingFragment StoreEntitySet="SYS_MENU_BUTTON">
+                <ScalarProperty Name="ButtonCode" ColumnName="ButtonCode" />
+                <ScalarProperty Name="MenuCode" ColumnName="MenuCode" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_ROLE_MENU_BUTTON">
+            <EntityTypeMapping TypeName="RandyAdminACEModel.SYS_ROLE_MENU_BUTTON">
+              <MappingFragment StoreEntitySet="SYS_ROLE_MENU_BUTTON">
+                <ScalarProperty Name="ButtonCode" ColumnName="ButtonCode" />
+                <ScalarProperty Name="MenuCode" ColumnName="MenuCode" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

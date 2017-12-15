@@ -17,7 +17,7 @@ namespace DAL
         public static I_Base_DAL Create()
         {
             //实例化BaseDAL
-            return new BaseDAL(new DbContext(("DbEntities")));
+            return new BaseDAL(new DbContext(("AdminEntities")));
         }
     }
 }

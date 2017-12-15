@@ -10,7 +10,7 @@ namespace Common.WebHelper
     /// <summary>
     /// Cookie辅助类
     /// </summary>
-    public class CookieHelper
+    public static class CookieHelper
     {
         /// <summary>
         /// 清除指定Cookie

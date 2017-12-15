@@ -12,7 +12,7 @@ namespace Common.WebHelper
     /// 1、GetSession(string name)根据session名获取session对象
     /// 2、SetSession(string name, object val)设置session
     /// </summary>
-    public class SessionHelper
+    public static class SessionHelper
     {
         /// <summary>
         /// 根据session名获取session对象
@@ -66,6 +66,19 @@ namespace Common.WebHelper
             HttpContext.Current.Session[strSessionName] = strValue;
             HttpContext.Current.Session.Timeout = iExpires;
         }
+
+        /// <summary>
+        /// 添加Session
+        /// </summary>
+        /// <param name="strSessionName">Session对象名称</param>
+        /// <param name="strValue">Session值</param>
+        /// <param name="iExpires">调动有效期（分钟）</param>
+        public static void Add(string strSessionName, object obj, int iExpires)
+        {
+            HttpContext.Current.Session[strSessionName] = obj;
+            HttpContext.Current.Session.Timeout = iExpires;
+        }
+
 
         /// <summary>
         /// 添加Session
