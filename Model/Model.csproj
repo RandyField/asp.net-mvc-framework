@@ -42,8 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menuaccess.cs" />
-    <Compile Include="PermissionMenuModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserMenuModel.cs" />
     <Compile Include="wxUserInfoModel.cs" />
