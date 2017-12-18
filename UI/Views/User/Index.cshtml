@@ -210,6 +210,20 @@
                   { "bSortable": false }
                 ],
                 "aaSorting": [],
+                //开启服务器模式
+                serverSide: true,
+
+                //数据来源（包括处理分页，排序，过滤） ，即url，action，接口，等等
+                //ajax: '../User/Search',
+                ajax: {
+                    url: '../User/Search',
+                    type: 'POST',
+                    "data": function (d) {
+                        //添加额外的参数传给服务器
+                        d.beginDate = "123";//开始时间
+                        d.endDate ="123";//结束时间
+                    }
+                },
 
                 //设置异步请求时，是否有等待框 开启读取服务器数据时显示正在加载中……特别是大数据量的时候，开启此功能比较好
                 //"bProcessing": true,
