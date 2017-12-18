@@ -9,7 +9,7 @@
         if (childMenus.Count == 0)
         {
             <li class="">
-                <a href="@item.LinkAddress" data-code="@item.MenuCode">
+                <a href="@item.LinkAddress" data-widget="async-iframe" data-code="@item.MenuCode">
                     <i class="@item.IconScript"></i>
                     <span class="menu-text"> @item.MenuName </span>
                 </a>
@@ -33,7 +33,7 @@
                     @foreach (var child in childMenus)
                     {
                         <li class="">
-                            <a href="@child.LinkAddress" data-code="@child.MenuCode">
+                            <a href="@child.LinkAddress" data-widget="async-iframe" data-code="@child.MenuCode">
                                 <i class="@child.IconScript"></i>
                                 @child.MenuName
                             </a>

@@ -9,17 +9,22 @@ using Web.Attribute;
 
 namespace UI.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         //
         // GET: /Home/
         [AuthorityFilter]
         public ActionResult Index()
         {
-            UserSession userinfo = SessionHelper.Get("Account") as UserSession;
-            this.ViewData["RootMenus"] = userinfo.Menulist.Where(p=>p.ParentCode=="00").ToList();
-            this.ViewData["OtherMenus"] = userinfo.Menulist.Where(p => p.ParentCode != "00").ToList();
-            this.ViewData["Logininfo"] = userinfo.logininfo;
+            GetMenu(); //获取菜单
+            Location("ace后台", "首页"); //当前位置
+            ViewBag.Title = "Main Page - 首页 "; 
+            return View();
+        }
+
+        public ActionResult Main()
+        {
+            Location("ace后台", "首页"); //当前位置
             return View();
         }
 

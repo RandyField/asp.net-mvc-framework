@@ -31,13 +31,11 @@
     <!--[if lte IE 9]>
       <link rel="stylesheet" href="~/assets/css/ace-ie.min.css" />
     <![endif]-->
-
     <!-- inline styles related to this page -->
     <!-- ace settings handler -->
     <script src="~/assets/js/ace-extra.min.js"></script>
 
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
-
     <!--[if lte IE 8]>
     <script src="~/assets/js/html5shiv.min.js"></script>
     <script src="~/assets/js/respond.min.js"></script>
@@ -64,14 +62,11 @@
         <!--right-->
         <div class="main-content">
             <div class="main-content-inner">
-                @Html.Partial("_Layout.content.breadcrumbs")
-                <div class="page-content">
-
-                    @Html.Partial("_Layout.content.setter")
+                <iframe src="/Home/Main" name="right" id="right-iframe" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="auto" width="100%" height="100%" allowtransparency="true" style="overflow:scroll;">
 
                     @RenderBody()
 
-                </div>
+                </iframe>
             </div>
         </div>
 
@@ -102,59 +97,40 @@
     <script src="~/assets/js/ace.min.js"></script>
 
     @RenderSection("scripts", required: false)
-    <!-- inline scripts related to this page -->
+
     <script type="text/javascript">
-        jQuery(function ($) {
-            $('#id-change-style').on(ace.click_event, function () {
-                var toggler = $('#menu-toggler');
-                var fixed = toggler.hasClass('fixed');
-                var display = toggler.hasClass('display');
+        //自动高度
+        function AutoHeight() {
+            var h_page = document.documentElement.clientHeight || document.body.clientHeight;
+            var h_navbar = $("#navbar").height();
+            var h_footer = $(".footer-content").height();
+            var h_breadcrumbs = $("#breadcrumbs").height();
+            document.getElementById("right-iframe").style.height = (h_page - h_navbar - h_footer - h_breadcrumbs - 51) + "px";
+        }
+        window.onresize = function () {
+            AutoHeight();
+        }
+        //加载
+        window.onload = function () {
+            AutoHeight();
+        }
 
-                if (toggler.closest('.navbar').length == 1) {
-                    $('#menu-toggler').remove();
-                    toggler = $('#sidebar').before('<a id="menu-toggler" data-target="#sidebar" class="menu-toggler" href="#">\
-							<span class="sr-only">Toggle sidebar</span>\
-							<span class="toggler-text"></span>\
-						 </a>').prev();
 
-                    var ace_sidebar = $('#sidebar').ace_sidebar('ref');
-                    ace_sidebar.set('mobile_style', 2);
+        $(document).on('click', '[data-widget="async-iframe"]', function (event) {
+            event.preventDefault();
 
-                    var icon = $(this).children().detach();
-                    $(this).text('Hide older Ace toggle button').prepend(icon);
+            var $this = $(this),
+                target = $this.attr('data-target') || '#right-iframe',
+                href = $this.attr('href') || $this.attr('data-href') || $this.attr('data-src') || '/',
+                $lis = $this.parents('ul').find('li'),
+                $li = $this.parents('li'); // 找到所有父级li标签
+            $lis.removeClass('active');
+            $li.addClass('active');
 
-                    $('#id-push-content').closest('div').hide();
-                    $('#id-push-content').removeAttr('checked');
-                    $('.sidebar').removeClass('push_away');
-                } else {
-                    $('#menu-toggler').remove();
-                    toggler = $('.navbar-brand').before('<button data-target="#sidebar" id="menu-toggler" class="three-bars pull-left menu-toggler navbar-toggle" type="button">\
-							<span class="sr-only">Toggle sidebar</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>\
-						</button>').prev();
-
-                    var ace_sidebar = $('#sidebar').ace_sidebar('ref');
-                    ace_sidebar.set('mobile_style', 1);
-
-                    var icon = $(this).children().detach();
-                    $(this).text('Show older Ace toggle button').prepend(icon);
-
-                    $('#id-push-content').closest('div').show();
-                }
-
-                if (fixed) toggler.addClass('fixed');
-                if (display) toggler.addClass('display');
-
-                $('.sidebar[data-sidebar-hover=true]').ace_sidebar_hover('reset');
-                $('.sidebar[data-sidebar-scroll=true]').ace_sidebar_scroll('reset');
-
-                return false;
-            });
-
-            $('#id-push-content').removeAttr('checked').on('click', function () {
-                $('.sidebar').toggleClass('push_away');
-            });
+            $(target).attr('src', href);
         });
     </script>
+
 </body>
 
 </html>

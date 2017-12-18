@@ -139,6 +139,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -338,6 +339,7 @@
     <Content Include="assets\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="assets\lang\jQuery.Datatable.lang.Chinese.json" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -377,6 +379,9 @@
     <Content Include="Views\Login\Index.Login.cshtml" />
     <Content Include="Views\Login\Index.Forgot.cshtml" />
     <Content Include="Views\Login\Index.Signup.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Home\Main.cshtml" />
+    <Content Include="Views\Shared\_Layout.content.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -429,6 +434,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
+      <UserProperties assets_2lang_2jQuery_1Datatable_1lang_1Chinese_1json__JSONSchema="" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
