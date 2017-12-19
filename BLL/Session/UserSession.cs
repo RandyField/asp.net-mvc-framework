@@ -25,7 +25,7 @@ namespace BLL.Session
         /// <summary>
         /// 用户角色信息
         /// </summary>
-        public SYS_ROLE Role { get; set; }
+        public List<SYS_ROLE> Rolelist { get; set; }
 
         /// <summary>
         /// 用户可用菜单信息
@@ -40,7 +40,7 @@ namespace BLL.Session
         /// <summary>
         /// 用户拥有的菜单按钮
         /// </summary>
-        public SYS_ROLE_MENU_BUTTON Menubtn { get; set; }
+        public List<SYS_ROLE_MENU_BUTTON> Menubtn { get; set; }
 
         /// <summary>
         /// 用户登录信息

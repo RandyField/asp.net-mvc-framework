@@ -422,9 +422,9 @@ namespace BLL
         /// <param name="LoginID"></param>
         public void SaveSession(SYS_LOGIN loginmodel)
         {
-            List<UserMenuModel> list = null;
+            List<UserMenuModel> mennulist = null;
             SYS_USER usermodel = null;
-            SYS_ROLE userrole = null;
+            List<SYS_ROLE> userrolelist = null;
             using (var dbcontext = DbFactory.Create())
             {
                 #region 获取用户菜单
@@ -439,7 +439,7 @@ namespace BLL
                 strmenuSql.Append(" INNER JOIN [SYS_ROLE_USER] R ON R.UserID=U.UserID");
                 strmenuSql.Append(" INNER JOIN [SYS_ROLE_MENU_BUTTON] MB ON R.RoleID=MB.RoleID");
                 strmenuSql.Append(" INNER JOIN [SYS_MENU] M ON M.MenuCode=MB.MenuCode WHERE L.ID=@id order by M.ParentCode,M.Sort");
-                list = dbcontext.SqlQuery<UserMenuModel>(strmenuSql.ToString(), args1);
+                mennulist = dbcontext.SqlQuery<UserMenuModel>(strmenuSql.ToString(), args1);
 
                 #endregion
 
@@ -457,12 +457,12 @@ namespace BLL
                 strroleSql1.Append(" INNER JOIN [SYS_USER] U ON RU.UserID=U.UserID");
                 strroleSql1.Append(" INNER JOIN [SYS_ROLE] R ON R.RoleID=RU.RoleID");
                 strroleSql1.Append(" WHERE U.UserID=@userid");
-                userrole = dbcontext.SqlQuery<SYS_ROLE>(strroleSql1.ToString(), args2).FirstOrDefault();
+                userrolelist = dbcontext.SqlQuery<SYS_ROLE>(strroleSql1.ToString(), args2);
                 #endregion
 
                 UserSession user = new UserSession();
-                user.Role = userrole;
-                user.Menulist = list;
+                user.Rolelist = userrolelist;
+                user.Menulist = mennulist;
                 user.AccountInfo = usermodel;
                 user.logininfo = loginmodel;
 

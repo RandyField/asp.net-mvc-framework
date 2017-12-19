@@ -21,7 +21,7 @@ namespace  Common
             //
         }
 
-        public static readonly string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DbEntities"].ConnectionString;
+        //public static readonly string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DbEntities"].ConnectionString;
 
         #region 私有构造函数和方法
 

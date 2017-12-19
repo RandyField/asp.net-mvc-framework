@@ -318,17 +318,17 @@ namespace BLL
 	                }
 	                PagerInfo pager = new PagerInfo();
 	                #region 组装存储过程调用参数
-	                
-	                
-	                //pager.curPage = pageIndex;
-	                //pager.pageSize = pageSize;
-	                //pager.isDescending = true;
-	                //pager.fields = "a.*,c.GameName";
-	                //pager.sortField = "a.UploadTime";
-	                //pager.indexField = "a.ID";
-	                //pager.where = null;
-	                //pager.condition = condition;
-	                //pager.tableName = "[ZhpGame].[dbo].[Zhp_GameRecord] a left join  [Zhp_OnlineGame] b on a.Gameid=b.Gameid left join [Zhp_GameConfig] c on b.GameCode= c.GameCode ";
+
+
+                    pager.curPage = pageIndex;
+                    pager.pageSize = pageSize;
+                    pager.isDescending = true;
+                    pager.fields = "B.UserName,A.*";
+                    pager.sortField = "A.UserID";
+                    pager.indexField = "A.UserID";
+                    pager.where = null;
+                    pager.condition = condition;
+                    pager.tableName = " SYS_USER A INNER JOIN SYS_LOGIN B ON A.LoginID=B.ID ";
 	
 	                #endregion
 	                dt = dbcontext.PageQuery(pager, out recordCount, out pageCount);

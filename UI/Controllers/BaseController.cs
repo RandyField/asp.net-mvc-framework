@@ -28,6 +28,17 @@ namespace UI.Controllers
             this.ViewData["OtherMenus"] = userinfo.Menulist.Where(p => p.ParentCode != "00").ToList();
             this.ViewData["Logininfo"] = userinfo.logininfo;
         }
+        
+        /// <summary>
+        /// 获取菜单的按钮权限
+        /// </summary>
+        public void GetMenuBtn()
+        {
+            UserSession userinfo = SessionHelper.Get("Account") as UserSession;
+
+                //this.ViewData["OtherMenus"] = userinfo.Menulist.Where(p => p.ParentCode != "00").ToList();
+            //this.ViewData["Logininfo"] = userinfo.logininfo;
+        }
 
         /// <summary>
         /// 当前位置

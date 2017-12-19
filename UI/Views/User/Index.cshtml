@@ -3,6 +3,23 @@
 }
 
 <div class="row">
+    <div class='col-xs-12'>
+        <h3 class="header smaller lighter blue">用户管理</h3>
+        <div id='sample-table-2_filter' class='dataTables_filter'>
+            <label>
+                用户名:
+                <input aria-controls='sample-table-2' id="username" type='text'>
+            </label>
+          
+            <button class='btn btn-purple btn-sm' id="searchBtn">
+                搜索
+            </button>
+            <button class='btn btn-success btn-sm' onclick='ShowAdd()'>
+                新增
+            </button>
+        </div>
+    </div>
+
     <div class="col-xs-12">
         <h3 class="header smaller lighter blue">用户列表</h3>
 
@@ -11,8 +28,7 @@
         </div>
         <div class="table-header">
             结果
-        </div>
-
+        </div>  
         <!-- div.table-responsive -->
         <!-- div.dataTables_borderWrap -->
         <div>
@@ -25,91 +41,18 @@
                                 <span class="lbl"></span>
                             </label>
                         </th>
-                        <th>Domain</th>
-                        <th>Price</th>
-                        <th class="hidden-480">Clicks</th>
-
-                        <th>
-                            <i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>
-                            Update
+                        <th>用户名</th>
+                        <th>姓名</th>
+                        <th class="hidden-480">电话</th>
+                        <th>QQ</th>
+                        <th class="hidden-480">微信</th>
+                        <th class="hidden-480">邮箱</th>
+                        <th class="hidden-480">
+                            <i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>更新时间
                         </th>
-                        <th class="hidden-480">Status</th>
-
-                        <th></th>
+                        <th>操作</th>
                     </tr>
                 </thead>
-
-                <tbody>
-                    <tr>
-                        <td class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace" />
-                                <span class="lbl"></span>
-                            </label>
-                        </td>
-
-                        <td>
-                            <a href="#">light.com</a>
-                        </td>
-                        <td>$40</td>
-                        <td class="hidden-480">3,100</td>
-                        <td>Feb 17</td>
-
-                        <td class="hidden-480">
-                            <span class="label label-sm label-success">Registered</span>
-                        </td>
-
-                        <td>
-                            <div class="hidden-sm hidden-xs action-buttons">
-                                <a class="blue" href="#">
-                                    <i class="ace-icon fa fa-search-plus bigger-130"></i>
-                                </a>
-
-                                <a class="green" href="#">
-                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                </a>
-
-                                <a class="red" href="#">
-                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
-                                </a>
-                            </div>
-
-                            <div class="hidden-md hidden-lg">
-                                <div class="inline pos-rel">
-                                    <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                        <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
-                                    </button>
-
-                                    <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                        <li>
-                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-                                                <span class="blue">
-                                                    <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                                </span>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
-                                                <span class="green">
-                                                    <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                </span>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-                                                <span class="red">
-                                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                </span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
             </table>
         </div>
     </div>
@@ -132,105 +75,75 @@
             $('#dynamic-table')
             //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
             .DataTable({
-                bAutoWidth: false,
-                columns: [
-                        {
-                            "data": "first_name"
-                        },
-                        {
-                            "data": "last_name"
-                        },
-                        {
-                            "data": "position"
-                        },
-                        {
-                            "data": "office"
-                        },
-                        {
-                            "data": "start_date"
-                        },
-                        {
-                            "data": "salary"
-                        }
-                ],
-
-                //"aoColumns": [
-                //  {
-                //      "bSortable": false
-                //  },
-                //  null,
-                //  null,
-                //  null,
-                //  null,
-                //  null,
-                //  {
-                //      "bSortable": false
-                //  }
-                //],
-                //"aaSorting": [],
-
-                //指定服务端分页，必须的属性！
-                //"bServerSide": true,
-                //开启服务器模式
-                //serverSide: true,
-                serverSide: true,
-
-
-                //获取数据的ajax方法的URL
-                //"sAjaxSource": "http://127.0.0.1/table.php",
-
-                //数据来源（包括处理分页，排序，过滤） ，即url，action，接口，等等
-                //ajax: '../User/Search',
-
+                bAutoWidth: false,//表格宽度自适应
+                processing: true, //等待加载效果
                 ajax: {
                     url: '../User/Search',
                     type: 'POST',
-                    "data": function (d) {
-                        //添加额外的参数传给服务器
+                    dataType: 'json',
+
+                    //添加额外的参数传给服务器
+                    data: function (d) {
+
                         d.beginDate = "123";//开始时间
                         d.endDate = "123";//结束时间
                     }
                 },
-
-                //设置异步请求时，是否有等待框 开启读取服务器数据时显示正在加载中……特别是大数据量的时候，开启此功能比较好
-                //"bProcessing": true,
-                "processing": true,
-
-                //"sScrollY": "200px",
-
-                //是否支持分页,分页工具条显示
-                //"bPaginate": true,
-                paging: false,
-
-                searching: false,
-
-                ordering: false,
-
-                "bFilter": false, //搜索栏
-
-                //"sScrollX": "100%",
-                //"sScrollXInner": "120%",
-                //"bScrollCollapse": true,
-                //Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
-                //you may want to wrap the table inside a "div.dataTables_borderWrap" element
-
-                //每页默认显示数据条数
-                "iDisplayLength": 5,
-
+                columns: [
+                    {
+                        "data": "UserID",
+                        "sClass": "center",//显示样式
+                        "render": function (data, type, row, meta) {
+                            return ' <label class="pos-rel"><input type="checkbox" class="ace" data-id=' + data + ' /><span class="lbl"></span></label>';
+                        }
+                    },
+                    {
+                        "data": "UserName",
+                        "render": function (data, type, row, meta) {
+                            return '<a href="#">' + data + '</a>';
+                        }
+                    },
+                    {
+                        "data": "RealName"
+                    },
+                    {
+                        "data": "Phone"
+                    },
+                    {
+                        "data": "QQ"
+                    },
+                    {
+                        "data": "Wechat"
+                    },
+                    {
+                        "data": "E-mail"
+                    },
+                    {
+                        "data": "UpdateDate"
+                    },
+                    {
+                        "defaultContent": "",
+                        "render": function (data, type, row, meta) {
+                            return $("#operation").html();
+                        }
+                    }
+                ],
+                serverSide: true,  //开启服务器模式
+                searching: false,  //禁用搜索
+                ordering: false,   //禁用排序
+                "iDisplayLength": 5, //每页默认显示数据条数
                 "aLengthMenu": [
                   [5, 15, 20, 50],
                   [5, 15, 20, 50]
                 ],
                 language: {
                     url: '../assets/lang/jQuery.Datatable.lang.Chinese.json'
-                },
+                }, //翻译成中文
 
                 select: {
                     style: 'multi'
                 }
             });
-
-
 
             $.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
 
@@ -305,23 +218,17 @@
                 });
             }, 500);
 
-
-
-
-
             myTable.on('select', function (e, dt, type, index) {
                 if (type === 'row') {
                     $(myTable.row(index).node()).find('input:checkbox').prop('checked', true);
                 }
             });
+
             myTable.on('deselect', function (e, dt, type, index) {
                 if (type === 'row') {
                     $(myTable.row(index).node()).find('input:checkbox').prop('checked', false);
                 }
             });
-
-
-
 
             /////////////////////////////////
             //table checkboxes
@@ -345,15 +252,11 @@
                 else myTable.row(row).select();
             });
 
-
-
             $(document).on('click', '#dynamic-table .dropdown-toggle', function (e) {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 e.preventDefault();
             });
-
-
 
             //And for the first simple table, which doesn't have TableTools or dataTables
             //select/deselect all rows according to table header checkbox
@@ -377,7 +280,6 @@
             });
 
 
-
             /********************************/
             //add tooltip for small view action buttons in dropdown menu
             $('[data-rel="tooltip"]').tooltip({ placement: tooltip_placement });
@@ -397,8 +299,6 @@
             }
 
 
-
-
             /***************/
             $('.show-details-btn').on('click', function (e) {
                 e.preventDefault();
@@ -406,9 +306,6 @@
                 $(this).find(ace.vars['.icon']).toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up');
             });
             /***************/
-
-
-
 
 
             /**
@@ -427,3 +324,53 @@
         })
     </script>
 }
+<script type="text/html" id="operation">
+
+    <div class="hidden-sm hidden-xs action-buttons">
+        <a class="blue" href="#">
+            <i class="ace-icon fa fa-search-plus bigger-130"></i>
+        </a>
+
+        <a class="green" href="#">
+            <i class="ace-icon fa fa-pencil bigger-130"></i>
+        </a>
+
+        <a class="red" href="#">
+            <i class="ace-icon fa fa-trash-o bigger-130"></i>
+        </a>
+    </div>
+
+    <div class="hidden-md hidden-lg">
+        <div class="inline pos-rel">
+            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+            </button>
+
+            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                <li>
+                    <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+                        <span class="blue">
+                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+                        <span class="green">
+                            <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+                        <span class="red">
+                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</script>
