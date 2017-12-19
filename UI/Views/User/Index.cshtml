@@ -109,77 +109,6 @@
                             </div>
                         </td>
                     </tr>
-
-                    <tr>
-                        <td class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace" />
-                                <span class="lbl"></span>
-                            </label>
-                        </td>
-
-                        <td>
-                            <a href="#">sight.com</a>
-                        </td>
-                        <td>$58</td>
-                        <td class="hidden-480">6,100</td>
-                        <td>Feb 19</td>
-
-                        <td class="hidden-480">
-                            <span class="label label-sm label-inverse arrowed-in">Flagged</span>
-                        </td>
-
-                        <td>
-                            <div class="hidden-sm hidden-xs action-buttons">
-                                <a class="blue" href="#">
-                                    <i class="ace-icon fa fa-search-plus bigger-130"></i>
-                                </a>
-
-                                <a class="green" href="#">
-                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                </a>
-
-                                <a class="red" href="#">
-                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
-                                </a>
-                            </div>
-
-                            <div class="hidden-md hidden-lg">
-                                <div class="inline pos-rel">
-                                    <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                        <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
-                                    </button>
-
-                                    <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                        <li>
-                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-                                                <span class="blue">
-                                                    <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                                </span>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
-                                                <span class="green">
-                                                    <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                </span>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-                                                <span class="red">
-                                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                </span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-
                 </tbody>
             </table>
         </div>
@@ -204,41 +133,80 @@
             //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
             .DataTable({
                 bAutoWidth: false,
-                "aoColumns": [
-                  { "bSortable": false },
-                  null, null, null, null, null,
-                  { "bSortable": false }
+                columns: [
+                        {
+                            "data": "first_name"
+                        },
+                        {
+                            "data": "last_name"
+                        },
+                        {
+                            "data": "position"
+                        },
+                        {
+                            "data": "office"
+                        },
+                        {
+                            "data": "start_date"
+                        },
+                        {
+                            "data": "salary"
+                        }
                 ],
-                "aaSorting": [],
+
+                //"aoColumns": [
+                //  {
+                //      "bSortable": false
+                //  },
+                //  null,
+                //  null,
+                //  null,
+                //  null,
+                //  null,
+                //  {
+                //      "bSortable": false
+                //  }
+                //],
+                //"aaSorting": [],
+
+                //指定服务端分页，必须的属性！
+                //"bServerSide": true,
                 //开启服务器模式
+                //serverSide: true,
                 serverSide: true,
+
+
+                //获取数据的ajax方法的URL
+                //"sAjaxSource": "http://127.0.0.1/table.php",
 
                 //数据来源（包括处理分页，排序，过滤） ，即url，action，接口，等等
                 //ajax: '../User/Search',
+
                 ajax: {
                     url: '../User/Search',
                     type: 'POST',
                     "data": function (d) {
                         //添加额外的参数传给服务器
                         d.beginDate = "123";//开始时间
-                        d.endDate ="123";//结束时间
+                        d.endDate = "123";//结束时间
                     }
                 },
 
                 //设置异步请求时，是否有等待框 开启读取服务器数据时显示正在加载中……特别是大数据量的时候，开启此功能比较好
                 //"bProcessing": true,
+                "processing": true,
 
-                //指定服务端分页，必须的属性！
-                //"bServerSide": true,
-
-                //获取数据的ajax方法的URL
-                //"sAjaxSource": "http://127.0.0.1/table.php",
-
-                //,
                 //"sScrollY": "200px",
 
                 //是否支持分页,分页工具条显示
-                "bPaginate": true,
+                //"bPaginate": true,
+                paging: false,
+
+                searching: false,
+
+                ordering: false,
+
+                "bFilter": false, //搜索栏
 
                 //"sScrollX": "100%",
                 //"sScrollXInner": "120%",
@@ -263,7 +231,7 @@
             });
 
 
-          
+
             $.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
 
             new $.fn.dataTable.Buttons(myTable, {
