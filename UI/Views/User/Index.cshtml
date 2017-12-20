@@ -116,7 +116,12 @@
                         "data": "E-mail"
                     },
                     {
-                        "data": "UpdateDate"
+                        "data": "UpdateDate",
+                        "render": function (data, type, row, meta) {
+                            return new Date(data)//处理时间显示
+                                                 .toLocaleString();
+                        }
+
                     },
                     {
                         "defaultContent": "",
@@ -322,10 +327,7 @@
     </script>
 }
 
-
-
 <script type="text/html" id="operation">
-
     <div class="hidden-sm hidden-xs action-buttons">
         @Html.Partial("_View.Button/_View.Button.md.Detail")
         @Html.Partial("_View.Button/_View.Button.md.Edit")

@@ -23,8 +23,9 @@ namespace UI.Controllers
         public ActionResult Index()
         {
             //GetMenu(); //获取菜单
-            Location("系统管理", "用户管理"); //当前位置
-            ViewBag.Title = "User Page - 用户管理"; //页面标题
+            Location("系统管理", "用户管理"); //UI-当前位置
+            ViewBag.Title = "User Page - 用户管理"; //UI-页面标题
+
             return View();
         }
 
@@ -36,7 +37,7 @@ namespace UI.Controllers
                 int pageSize = dtparam.length;
 
                 //页面索引
-                int pageIndex = dtparam.pageIndex;
+                int pageIndex = dtparam.pageIndex+1;
 
                 //记录总数
                 int recordCount = 0;
@@ -45,12 +46,14 @@ namespace UI.Controllers
                 int pageCount = 0;
 
                 //数据Datatable
-                DataTable dt = bll.PageQuery(null, 1, 12, out recordCount, out pageCount);
+                DataTable dt = bll.PageQuery(null, pageIndex, pageSize, out recordCount, out pageCount);
+
                 dtparam.data = dt;
                 dtparam.recordsTotal = recordCount;
                 dtparam.recordsFiltered = recordCount;
 
                 //序列化
+                
                 string searchdata = JsonConvert.SerializeObject(dtparam);
 
                 return searchdata;

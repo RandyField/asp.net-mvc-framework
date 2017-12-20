@@ -317,8 +317,8 @@ namespace BLL
 	                    #endregion
 	                }
 	                PagerInfo pager = new PagerInfo();
-	                #region 组装存储过程调用参数
 
+	                #region 组装存储过程调用参数
 
                     pager.curPage = pageIndex;
                     pager.pageSize = pageSize;
@@ -331,6 +331,7 @@ namespace BLL
                     pager.tableName = " SYS_USER A INNER JOIN SYS_LOGIN B ON A.LoginID=B.ID ";
 	
 	                #endregion
+
 	                dt = dbcontext.PageQuery(pager, out recordCount, out pageCount);
 	            }
 	            catch (Exception ex)
