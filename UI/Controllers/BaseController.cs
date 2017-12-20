@@ -2,6 +2,7 @@
 using BLL.Session;
 using Common.WebHelper;
 using EFModel;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -29,7 +30,7 @@ namespace UI.Controllers
         /// <returns></returns>
         public void GetButtonPage(string menucode)
         {
-            List<SYS_BUTTON> list = SYS_ROLE_MENU_BUTTON_BLL.getInstance().GetButtonByUserIdMenuCode(menucode, UserSession.AccountInfo.UserID);
+            List<PageButtonModel> list = SYS_ROLE_MENU_BUTTON_BLL.getInstance().GetButtonByUserIdMenuCode(menucode, UserSession.AccountInfo.UserID.ToString());
             this.ViewData["PageBtnList"] = list;
         }
 

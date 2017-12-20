@@ -1,32 +1,14 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.content.cshtml";
-    var btnlist = this.ViewData["PageBtnList"] != null ? this.ViewData["PageBtnList"] as List<Model.PageButtonModel> : new List<Model.PageButtonModel>();
 }
 
 <div class="row">
-    <div class='col-xs-12'>
-        <h3 class="header smaller lighter blue">用户管理</h3>
-        <div id='sample-table-2_filter' class='dataTables_filter'>
-            <label>
-                用户名:
-                <input aria-controls='sample-table-2' id="username" type='text'>
-            </label>
-            @Html.Partial("_View.Button/_View.Button.search")
-            @if (btnlist.Exists(p => p.Code.Contains("add")))
-            {
-                @Html.Partial("_View.Button/_View.Button.add")
-            }
-        </div>
-        @Html.Partial("Modul.Add")
-    </div>
-
     <div class="col-xs-12">
         <h3 class="header smaller lighter blue">用户列表</h3>
 
         <div class="clearfix">
             <div class="pull-right tableTools-container"></div>
         </div>
-
         <div class="table-header">
             结果
         </div>
@@ -55,6 +37,7 @@
                         <th>操作</th>
                     </tr>
                 </thead>
+                <tbody></tbody>
             </table>
         </div>
     </div>
@@ -70,102 +53,14 @@
     <script src="~/assets/js/buttons.print.min.js"></script>
     <script src="~/assets/js/buttons.colVis.min.js"></script>
     <script src="~/assets/js/dataTables.select.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript">
         jQuery(function ($) {
             //initiate dataTables plugin
             var myTable =
             $('#dynamic-table')
-                .on('init.dt', function () {
-                    $("a[data-type='operation']").each(function () {
-
-                        var id = $(this).parents("tr").find("td").eq(0).find("input").attr("data-id");
-                        //alert($(this).parents("tr").find("td").eq(0).find("input").attr("data-id"));
-                        //详情
-                        if ($(this).attr("title") == "View") {
-                            $(this).on("click", function () {
-
-                            });
-                        }
-                            //删除
-                        else if ($(this).attr("title") == "Delete") {
-                            $(this).on("click", function () {
-
-                                //swal提示
-                                swal({
-                                    title: "提示！",
-                                    text: "确认删除？",
-                                    icon: "warning",
-                                    dangerMode: true,
-                                    buttons: ["取消","确定"]
-                                }).then(function (willDelete) {
-
-                                    //确认删除
-                                    if (willDelete) {
-                                        var data = {};
-                                        data["id"] = id;
-                                        $.ajax({
-                                            type: 'post',//可选get
-                                            url: "../User/Delet",
-                                            data: JSON.stringify(data),
-                                            contentType: "application/json", //必须有
-                                            dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
-                                            success: function (result) {
-                                                swal("删除成功!", {
-                                                    icon: "success",
-                                                });
-                                                if (result.success) {
-                                                    //        swal({
-                                                    //            title: "Are you sure?",
-                                                    //            text: "Once deleted, you will not be able to recover this imaginary file!",
-                                                    //            icon: "warning",
-                                                    //            buttons: true,
-                                                    //            dangerMode: true,
-                                                    //        }).then((willDelete) => {
-                                                    //            if (willDelete) {
-                                                    //                swal("Poof! Your imaginary file has been deleted!", {
-                                                    //                    icon: "success",
-                                                    //                });
-                                                    //    } else {
-                                                    //        swal("Your imaginary file is safe!");
-                                                    //    }
-                                                    //});
-                                                }
-                                                else {
-                                                    swal("删除失败!", {
-                                                        icon: "success",
-                                                    });
-                                                }
-                                            },
-                                            error: function () {
-                                                swal("删除失败!", {
-                                                    icon: "success",
-                                                });
-                                            }
-                                        });
-
-                                    }
-                                    else {
-                                        swal("删除已取消！", {
-                                            icon: "success",
-                                        });
-                                    }
-
-                                });
-                            });
-                        }
-                            //编辑
-                        else if ($(this).attr("title") == "Edit") {
-                            $(this).on("click", function () {
-
-                            });
-                        }
-                    });
-                }) //表格初始化完成
-        //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+            //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
             .DataTable({
-                bAutoWidth: false,//表格宽度自适应
-                processing: true, //等待加载效果
+                processing: true,
                 ajax: {
                     url: '../User/Search',
                     type: 'POST',
@@ -208,12 +103,7 @@
                         "data": "E-mail"
                     },
                     {
-                        "data": "UpdateDate",
-                        "render": function (data, type, row, meta) {
-                            return new Date(data)//处理时间显示
-                                                 .toLocaleString();
-                        }
-
+                        "data": "UpdateDate"
                     },
                     {
                         "defaultContent": "",
@@ -236,9 +126,36 @@
 
                 select: {
                     style: 'multi'
-                }
-            });
+                },
 
+                //指定服务端分页，必须的属性！
+                //"bServerSide": true,
+
+
+                //获取数据的ajax方法的URL
+                //"sAjaxSource": "http://127.0.0.1/table.php",
+
+                //数据来源（包括处理分页，排序，过滤） ，即url，action，接口，等等
+                //ajax: '../User/Search',
+
+                //设置异步请求时，是否有等待框 开启读取服务器数据时显示正在加载中……特别是大数据量的时候，开启此功能比较好
+                //"bProcessing": true,
+                //processing: true,
+
+                //"sScrollY": "200px", //设置表格的高度
+
+                //是否支持分页,分页工具条默认显示
+                //"bPaginate": true, 默认true
+                //paging: true,
+
+                //"sScrollX": "100%",  //表格外宽度
+                //"sScrollXInner": "120%", //表格内宽度
+                //"bScrollCollapse": true,
+
+                //Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+                //you may want to wrap the table inside a "div.dataTables_borderWrap" element
+
+            });
 
             $.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
 
@@ -313,17 +230,23 @@
                 });
             }, 500);
 
+
+
+
+
             myTable.on('select', function (e, dt, type, index) {
                 if (type === 'row') {
                     $(myTable.row(index).node()).find('input:checkbox').prop('checked', true);
                 }
             });
-
             myTable.on('deselect', function (e, dt, type, index) {
                 if (type === 'row') {
                     $(myTable.row(index).node()).find('input:checkbox').prop('checked', false);
                 }
             });
+
+
+
 
             /////////////////////////////////
             //table checkboxes
@@ -347,11 +270,15 @@
                 else myTable.row(row).select();
             });
 
+
+
             $(document).on('click', '#dynamic-table .dropdown-toggle', function (e) {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 e.preventDefault();
             });
+
+
 
             //And for the first simple table, which doesn't have TableTools or dataTables
             //select/deselect all rows according to table header checkbox
@@ -375,6 +302,7 @@
             });
 
 
+
             /********************************/
             //add tooltip for small view action buttons in dropdown menu
             $('[data-rel="tooltip"]').tooltip({ placement: tooltip_placement });
@@ -394,6 +322,8 @@
             }
 
 
+
+
             /***************/
             $('.show-details-btn').on('click', function (e) {
                 e.preventDefault();
@@ -401,6 +331,9 @@
                 $(this).find(ace.vars['.icon']).toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up');
             });
             /***************/
+
+
+
 
 
             /**
@@ -419,47 +352,21 @@
         })
     </script>
 }
-
-<!--操作按钮-->
 <script type="text/html" id="operation">
+
     <div class="hidden-sm hidden-xs action-buttons">
-        @if (btnlist.Exists(p => p.Code.Contains("detail")))
-        {
-            @Html.Partial("_View.Button/_View.Button.md.Detail")
-        }
-        @if (btnlist.Exists(p => p.Code.Contains("edit")))
-        {
-            @Html.Partial("_View.Button/_View.Button.md.Edit")
-        }
-        @if (btnlist.Exists(p => p.Code.Contains("delete")))
-        {
-            @Html.Partial("_View.Button/_View.Button.md.Delete")
-        }
+        <a class="blue" href="#">
+            <i class="ace-icon fa fa-search-plus bigger-130"></i>
+        </a>
+
+        <a class="green" href="#">
+            <i class="ace-icon fa fa-pencil bigger-130"></i>
+        </a>
+
+        <a class="red" href="#">
+            <i class="ace-icon fa fa-trash-o bigger-130"></i>
+        </a>
     </div>
 
     <div class="hidden-md hidden-lg">
-        <div class="inline pos-rel">
-            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
-            </button>
-
-            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                @if (btnlist.Exists(p => p.Code.Contains("detail")))
-                {
-                    @Html.Partial("_View.Button/_View.Button.sm.Detail")
-                }
-
-                @if (btnlist.Exists(p => p.Code.Contains("edit")))
-                {
-                    @Html.Partial("_View.Button/_View.Button.sm.Edit")
-                }
-                @if (btnlist.Exists(p => p.Code.Contains("delete")))
-                {
-                    @Html.Partial("_View.Button/_View.Button.sm.Delete")
-                }
-
-            </ul>
-        </div>
-    </div>
 </script>
-

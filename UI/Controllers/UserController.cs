@@ -29,6 +29,12 @@ namespace UI.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 用户查询
+        /// </summary>
+        /// <param name="dtparam"></param>
+        /// <returns></returns>
+        [AuthorityFilter]
         public string Search(jqDatatable dtparam)
         {
             string searchdata = "";
@@ -63,5 +69,15 @@ namespace UI.Controllers
             return searchdata;
         }
 
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [AuthorityFilter]
+        public ActionResult Delet(string id)
+        {
+            return Json(new { });
+        }
     }
 }

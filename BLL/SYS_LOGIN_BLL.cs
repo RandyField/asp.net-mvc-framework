@@ -430,7 +430,7 @@ namespace BLL
                 #region 获取用户菜单
 
                 var args1 = new DbParameter[] {  
-                                      new SqlParameter { ParameterName = "id", Value = loginmodel.ID},  
+                                      new SqlParameter { ParameterName = "@id", Value = loginmodel.ID},  
                                   };
 
                 StringBuilder strmenuSql = new StringBuilder();
@@ -450,7 +450,7 @@ namespace BLL
 
                 #region 获取用户角色
                 var args2 = new DbParameter[] {  
-                                      new SqlParameter { ParameterName = "userid", Value = usermodel.UserID},  
+                                      new SqlParameter { ParameterName = "@userid", Value = usermodel.UserID},  
                                   };
                 StringBuilder strroleSql1 = new StringBuilder();
                 strroleSql1.Append(" SELECT R.* FROM [SYS_ROLE_USER] RU");
