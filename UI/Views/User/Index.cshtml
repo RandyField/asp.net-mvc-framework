@@ -10,13 +10,8 @@
                 用户名:
                 <input aria-controls='sample-table-2' id="username" type='text'>
             </label>
-          
-            <button class='btn btn-purple btn-sm' id="searchBtn">
-                搜索
-            </button>
-            <button class='btn btn-success btn-sm' onclick='ShowAdd()'>
-                新增
-            </button>
+            @Html.Partial("_View.Button/_View.Button.search")
+            @Html.Partial("_View.Button/_View.Button.add")
         </div>
     </div>
 
@@ -26,9 +21,11 @@
         <div class="clearfix">
             <div class="pull-right tableTools-container"></div>
         </div>
+
         <div class="table-header">
             结果
-        </div>  
+        </div>
+
         <!-- div.table-responsive -->
         <!-- div.dataTables_borderWrap -->
         <div>
@@ -324,20 +321,15 @@
         })
     </script>
 }
+
+
+
 <script type="text/html" id="operation">
 
     <div class="hidden-sm hidden-xs action-buttons">
-        <a class="blue" href="#">
-            <i class="ace-icon fa fa-search-plus bigger-130"></i>
-        </a>
-
-        <a class="green" href="#">
-            <i class="ace-icon fa fa-pencil bigger-130"></i>
-        </a>
-
-        <a class="red" href="#">
-            <i class="ace-icon fa fa-trash-o bigger-130"></i>
-        </a>
+        @Html.Partial("_View.Button/_View.Button.md.Detail")
+        @Html.Partial("_View.Button/_View.Button.md.Edit")
+        @Html.Partial("_View.Button/_View.Button.md.Delete")
     </div>
 
     <div class="hidden-md hidden-lg">
@@ -347,30 +339,13 @@
             </button>
 
             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                <li>
-                    <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-                        <span class="blue">
-                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                        </span>
-                    </a>
-                </li>
+                @Html.Partial("_View.Button/_View.Button.sm.Detail")
+                @Html.Partial("_View.Button/_View.Button.sm.Edit")
+                @Html.Partial("_View.Button/_View.Button.sm.Delete")
 
-                <li>
-                    <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
-                        <span class="green">
-                            <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                        </span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-                        <span class="red">
-                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                        </span>
-                    </a>
-                </li>
             </ul>
         </div>
     </div>
 </script>
+
+

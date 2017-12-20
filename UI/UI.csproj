@@ -383,6 +383,14 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Home\Main.cshtml" />
     <Content Include="Views\Shared\_Layout.content.cshtml" />
+    <Content Include="Views\Shared\_View.Button\_View.Button.md.Detail.cshtml" />
+    <Content Include="Views\Shared\_View.Button\_View.Button.md.Edit.cshtml" />
+    <Content Include="Views\Shared\_View.Button\_View.Button.md.Delete.cshtml" />
+    <Content Include="Views\Shared\_View.Button\_View.Button.sm.Delete.cshtml" />
+    <Content Include="Views\Shared\_View.Button\_View.Button.sm.Detail.cshtml" />
+    <Content Include="Views\Shared\_View.Button\_View.Button.sm.Edit.cshtml" />
+    <Content Include="Views\Shared\_View.Button\_View.Button.add.cshtml" />
+    <Content Include="Views\Shared\_View.Button\_View.Button.search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
