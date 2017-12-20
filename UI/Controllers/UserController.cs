@@ -20,17 +20,18 @@ namespace UI.Controllers
         /// </summary>
         /// <returns></returns>
         [AuthorityFilter]
-        public ActionResult Index()
+        public ActionResult Index(string menucode)
         {
             //GetMenu(); //获取菜单
             Location("系统管理", "用户管理"); //UI-当前位置
             ViewBag.Title = "User Page - 用户管理"; //UI-页面标题
-
+            base.GetButtonPage(menucode);
             return View();
         }
 
         public string Search(jqDatatable dtparam)
         {
+            string searchdata = "";
             try
             {
                 //页面大小
@@ -52,18 +53,14 @@ namespace UI.Controllers
                 dtparam.recordsTotal = recordCount;
                 dtparam.recordsFiltered = recordCount;
 
-                //序列化
-                
-                string searchdata = JsonConvert.SerializeObject(dtparam);
-
-                return searchdata;
+                //序列化             
+                searchdata = JsonConvert.SerializeObject(dtparam);            
             }
             catch (Exception ex)
             {
-
-                throw;
+                Common.Helper.Logger.Info(string.Format("查询用户，查询异常，异常信息：{0}", ex.ToString()));
             }
-
+            return searchdata;
         }
 
     }

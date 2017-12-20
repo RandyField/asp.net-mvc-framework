@@ -342,5 +342,16 @@ namespace BLL
 	        }
             return dt;
         }
+
+        /// <summary>
+        /// 根据菜单和用户id获取按钮
+        /// </summary>
+        /// <param name="menucode"></param>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        public List<SYS_BUTTON> GetButtonByUserIdMenuCode(string menucode, int userid)
+        {
+ 
+        }
 	}
 }
