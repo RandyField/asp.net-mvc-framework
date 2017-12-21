@@ -229,7 +229,7 @@ namespace UI.Controllers
                     model.State = 2;
                     success = loginbll.Edit(model);
                 }
-                else if (model.State==0)
+                else if (model.State == 0)
                 {
                     msg = "用户尚未授权,无法禁用";
                 }
@@ -276,7 +276,7 @@ namespace UI.Controllers
                 else if (true)
                 {
                     msg = "用户已启用,请勿重复启用";
-                }                        
+                }
             }
             catch (Exception ex)
             {
@@ -290,14 +290,69 @@ namespace UI.Controllers
             });
         }
 
-        ///// <summary>
-        ///// 获取用户所属角色
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //public ActionResult GetRole(string id)
-        //{
+        /// <summary>
+        /// 获取用户所属角色
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public string GetRole(string id)
+        {
+            string getdata = "";
+            try
+            {
+                List<SYS_ROLE_USER> list = SYS_ROLE_USER_BLL.getInstance().GetList(id);
+                getdata = JsonConvert.SerializeObject(list);
+            }
+            catch (Exception ex)
+            {
+                Common.Helper.Logger.Info(string.Format("获取用户所属角色列表，获取异常，UserID-【0】，异常信息：{1}", id, ex.ToString())); ;
+            }
+            return getdata;
+        }
 
-        //}
+        /// <summary>
+        /// 设置用户角色
+        /// </summary>
+        /// <param name="useruserid"></param>
+        /// <param name="roleids"></param>
+        /// <returns></returns>
+        public ActionResult SetRole(string userid, string roleids)
+        {
+            bool success = false;
+            string msg = "";
+            try
+            {
+                List<SYS_ROLE_USER> list = new List<SYS_ROLE_USER>();
+
+                string[] roleid = roleids.Split(',');
+                foreach (var item in roleid)
+                {
+                    if (!string.IsNullOrWhiteSpace(item))
+                    {
+                        list.Add(new SYS_ROLE_USER
+                        {
+                            RoleID = Convert.ToInt32(item),
+                            UserID = Convert.ToInt32(userid)
+                        });
+                    }                   
+                }
+
+                //设置用户角色
+                success = SYS_ROLE_USER_BLL.getInstance().BulkAdd(list,userid);
+
+               
+            }
+            catch (Exception ex)
+            {
+                Common.Helper.Logger.Info(string.Format("设置用户角色，设置异常，UserID-【0】异常信息：{1}", userid, ex.ToString()));
+                msg = "设置异常";
+            }
+
+            return this.Json(new
+            {
+                success = success,
+                msg = msg
+            });
+        }
     }
 }
