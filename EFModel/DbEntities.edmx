@@ -39,7 +39,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="16" />
           <Property Name="Code" Type="varchar" MaxLength="8" />
-          <Property Name="IconScript" Type="text" />
+          <Property Name="IconScript" Type="varchar" MaxLength="100" />
           <Property Name="Sort" Type="int" />
           <Property Name="CreateUserID" Type="int" />
           <Property Name="CreateDate" Type="datetime" />
@@ -137,7 +137,7 @@
             <PropertyRef Name="UserID" />
           </Key>
           <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LoginID" Type="int" />
+          <Property Name="UserName" Type="varchar" MaxLength="16" />
           <Property Name="DepartCode" Type="varchar" MaxLength="16" />
           <Property Name="RealName" Type="varchar" MaxLength="32" />
           <Property Name="Sex" Type="char" MaxLength="1" />
@@ -202,7 +202,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
           <Property Name="Code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="IconScript" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IconScript" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Sort" Type="Int32" />
           <Property Name="CreateUserID" Type="Int32" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
@@ -278,24 +278,6 @@
           <Property Name="UserID" Type="Int32" />
           <Property Name="RoleID" Type="Int32" />
         </EntityType>
-        <EntityType Name="SYS_USER">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LoginID" Type="Int32" />
-          <Property Name="DepartCode" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
-          <Property Name="RealName" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="Sex" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Phone" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
-          <Property Name="QQ" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
-          <Property Name="E_mail" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="Wechat" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="CreateUserID" Type="Int32" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdateUserID" Type="Int32" />
-          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityContainer Name="AdminEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="PLATFORM_DEPARTMENT" EntityType="Self.PLATFORM_DEPARTMENT" />
           <EntitySet Name="SYS_BUG_FEEDBACK" EntityType="Self.SYS_BUG_FEEDBACK" />
@@ -306,9 +288,9 @@
           <EntitySet Name="SYS_OPERATE_LOG" EntityType="Self.SYS_OPERATE_LOG" />
           <EntitySet Name="SYS_ROLE" EntityType="Self.SYS_ROLE" />
           <EntitySet Name="SYS_ROLE_USER" EntityType="Self.SYS_ROLE_USER" />
-          <EntitySet Name="SYS_USER" EntityType="Self.SYS_USER" />
           <EntitySet Name="SYS_MENU_BUTTON" EntityType="RandyAdminACEModel.SYS_MENU_BUTTON" />
           <EntitySet Name="SYS_ROLE_MENU_BUTTON" EntityType="RandyAdminACEModel.SYS_ROLE_MENU_BUTTON" />
+          <EntitySet Name="SYS_USER" EntityType="RandyAdminACEModel.SYS_USER" />
         </EntityContainer>
         <EntityType Name="SYS_MENU_BUTTON">
           <Key>
@@ -326,6 +308,24 @@
           <Property Name="RoleID" Type="Int32" />
           <Property Name="MenuCode" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="ButtonCode" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SYS_USER">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="DepartCode" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="RealName" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Sex" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="QQ" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="E_mail" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Wechat" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="CreateUserID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateUserID" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -452,25 +452,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SYS_USER">
-            <EntityTypeMapping TypeName="RandyAdminACEModel.SYS_USER">
-              <MappingFragment StoreEntitySet="SYS_USER">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
-                <ScalarProperty Name="DepartCode" ColumnName="DepartCode" />
-                <ScalarProperty Name="RealName" ColumnName="RealName" />
-                <ScalarProperty Name="Sex" ColumnName="Sex" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="QQ" ColumnName="QQ" />
-                <ScalarProperty Name="E_mail" ColumnName="E-mail" />
-                <ScalarProperty Name="Wechat" ColumnName="Wechat" />
-                <ScalarProperty Name="CreateUserID" ColumnName="CreateUserID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UpdateUserID" ColumnName="UpdateUserID" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SYS_MENU_BUTTON">
             <EntityTypeMapping TypeName="RandyAdminACEModel.SYS_MENU_BUTTON">
               <MappingFragment StoreEntitySet="SYS_MENU_BUTTON">
@@ -487,6 +468,25 @@
                 <ScalarProperty Name="MenuCode" ColumnName="MenuCode" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_USER">
+            <EntityTypeMapping TypeName="RandyAdminACEModel.SYS_USER">
+              <MappingFragment StoreEntitySet="SYS_USER">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUserID" ColumnName="UpdateUserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateUserID" ColumnName="CreateUserID" />
+                <ScalarProperty Name="Wechat" ColumnName="Wechat" />
+                <ScalarProperty Name="E_mail" ColumnName="E-mail" />
+                <ScalarProperty Name="QQ" ColumnName="QQ" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="RealName" ColumnName="RealName" />
+                <ScalarProperty Name="DepartCode" ColumnName="DepartCode" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

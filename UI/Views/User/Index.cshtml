@@ -45,14 +45,15 @@
                         </th>
                         <th>用户名</th>
                         <th>姓名</th>
-                        <th class="hidden-480">电话</th>
+                        <!--<th class="hidden-480">电话</th>
                         <th>QQ</th>
                         <th class="hidden-480">微信</th>
-                        <th class="hidden-480">邮箱</th>
+                        <th class="hidden-480">邮箱</th>-->
+                        <th class="hidden-480">状态</th>
                         <th class="hidden-480">
-                            <i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>更新时间
+                            <i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>创建时间
                         </th>
-                        <th>操作</th>
+                        <th>操作（ 查看/ 编辑/ 删除/ 设置角色）</th>
                     </tr>
                 </thead>
             </table>
@@ -73,22 +74,22 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript">
         jQuery(function ($) {
+
             //initiate dataTables plugin
             var myTable =
             $('#dynamic-table')
-                .on('init.dt', function () {
+                .on('draw.dt', function () {
                     $("a[data-type='operation']").each(function () {
-
                         var id = $(this).parents("tr").find("td").eq(0).find("input").attr("data-id");
                         //alert($(this).parents("tr").find("td").eq(0).find("input").attr("data-id"));
                         //详情
-                        if ($(this).attr("title") == "View") {
+                        if ($(this).attr("data-title") == "View") {
                             $(this).on("click", function () {
 
                             });
                         }
                             //删除
-                        else if ($(this).attr("title") == "Delete") {
+                        else if ($(this).attr("data-title") == "Delete") {
                             $(this).on("click", function () {
 
                                 //swal提示
@@ -97,7 +98,7 @@
                                     text: "确认删除？",
                                     icon: "warning",
                                     dangerMode: true,
-                                    buttons: ["取消","确定"]
+                                    buttons: ["取消", "确定"]
                                 }).then(function (willDelete) {
 
                                     //确认删除
@@ -133,7 +134,7 @@
                                                 }
                                                 else {
                                                     swal("删除失败!", {
-                                                        icon: "success",
+                                                        icon: "error",
                                                     });
                                                 }
                                             },
@@ -155,7 +156,7 @@
                             });
                         }
                             //编辑
-                        else if ($(this).attr("title") == "Edit") {
+                        else if ($(this).attr("data-title") == "Edit") {
                             $(this).on("click", function () {
 
                             });
@@ -173,9 +174,7 @@
 
                     //添加额外的参数传给服务器
                     data: function (d) {
-
-                        d.beginDate = "123";//开始时间
-                        d.endDate = "123";//结束时间
+                        d.username = $("#username").val();//用户名
                     }
                 },
                 columns: [
@@ -195,20 +194,32 @@
                     {
                         "data": "RealName"
                     },
+                    //{
+                    //    "data": "Phone"
+                    //},
+                    //{
+                    //    "data": "QQ"
+                    //},
+                    //{
+                    //    "data": "Wechat"
+                    //},
+                    //{
+                    //    "data": "E-mail"
+                    //},
                     {
-                        "data": "Phone"
+                        "data": "State",
+                        "render": function (data, type, row, meta) {
+                            if (data == "0") {
+                                return '<span class="label label-sm label-warning">未授权</span>';
+                            } else if (data == "1") {
+                                return '<span class="label label-sm label-success">启用</span>';
+                            } else if (data == "2") {
+                                return '<span class="label label-sm label-inverse arrowed-in">锁定</span>';
+                            }
+                        }
                     },
                     {
-                        "data": "QQ"
-                    },
-                    {
-                        "data": "Wechat"
-                    },
-                    {
-                        "data": "E-mail"
-                    },
-                    {
-                        "data": "UpdateDate",
+                        "data": "CreateDate",
                         "render": function (data, type, row, meta) {
                             return new Date(data)//处理时间显示
                                                  .toLocaleString();
@@ -225,7 +236,7 @@
                 serverSide: true,  //开启服务器模式
                 searching: false,  //禁用搜索
                 ordering: false,   //禁用排序
-                "iDisplayLength": 5, //每页默认显示数据条数
+                "iDisplayLength": 15, //每页默认显示数据条数
                 "aLengthMenu": [
                   [5, 15, 20, 50],
                   [5, 15, 20, 50]
@@ -238,6 +249,52 @@
                     style: 'multi'
                 }
             });
+
+            //搜索
+            $("#searchBtn").on("click", function () {
+                myTable.draw();
+            });
+
+            //保存
+            $("#btnSave").on("click", function () {
+                var data = {
+                    "UserName": $.trim($("input[name='txtusername']").val()),
+                    "UserPassword": $.trim($("input[name='txtpwd']").val()),
+                    "RealName": $.trim($("input[name='txtname']").val()),
+                    "Sex": $.trim($("input[name='gender']:checked").val()),
+                    "E_mail": $.trim($("input[name='txtemail']").val()),
+                    "Phone": $.trim($("input[name='txtphone']").val()),
+                    "QQ": $.trim($("input[name='txtqq']").val()),
+                    "Wechat": $.trim($("input[name='txtwechat']").val())
+                };
+                $.ajax({
+                    type: 'post',//可选get
+                    url: "../User/Add",
+                    data: JSON.stringify(data),
+                    contentType: "application/json", //必须有
+                    dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
+                    success: function (result) {
+                        if (result.success) {
+                            swal("保存成功!", {
+                                icon: "success",
+                            });
+                            $('#form-add')[0].reset();
+                            myTable.draw();
+                        }
+                        else {
+                            swal("保存失败!" + result.msg + "", {
+                                icon: "error",
+                            });
+                        }
+                    },
+                    error: function () {
+                        swal("保存失败!" + result.msg + "", {
+                            icon: "success",
+                        });
+                    }
+                });
+            });
+
 
 
             $.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
@@ -435,6 +492,10 @@
         {
             @Html.Partial("_View.Button/_View.Button.md.Delete")
         }
+        @if (btnlist.Exists(p => p.Code.Contains("setrole")))
+        {
+            @Html.Partial("_View.Button/_View.Button.md.setrole")
+        }
     </div>
 
     <div class="hidden-md hidden-lg">
@@ -457,9 +518,11 @@
                 {
                     @Html.Partial("_View.Button/_View.Button.sm.Delete")
                 }
-
+                @if (btnlist.Exists(p => p.Code.Contains("setrole")))
+                {
+                    @Html.Partial("_View.Button/_View.Button.sm.setrole")
+                }
             </ul>
         </div>
     </div>
 </script>
-

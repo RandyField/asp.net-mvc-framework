@@ -17,6 +17,7 @@
             dataType: "Json",
             success: function (data) {
                 if (data.success) {
+
                     //$("#code").attr("style", "display:none");
                     $("#userLogin").removeAttr("disabled");
                     //$("#userLogin").html("登 录");
@@ -24,9 +25,21 @@
                     loginNum = 0;
                     $("#password").val("");
                     //$("#valiCode").val("");
+                    swal({
+                        title: "提示！",
+                        text: "登录成功！",
+                        icon: "success",
+                        button: false
+                    });
                     window.location.href = "/";
+
                 }
                 else {
+                    swal({
+                        title: "提示！",
+                        text: "登录失败，" + data.error + "！",
+                        icon: "error"
+                    });
                     // 每次登录失败后次数 + 1
                     loginNum++;
                     $("#userLogin").removeAttr("disabled");

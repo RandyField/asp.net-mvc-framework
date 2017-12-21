@@ -14,9 +14,9 @@
         <EntityTypeShape EntityType="RandyAdminACEModel.SYS_OPERATE_LOG" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="RandyAdminACEModel.SYS_ROLE" Width="1.5" PointX="6.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="RandyAdminACEModel.SYS_ROLE_USER" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RandyAdminACEModel.SYS_USER" Width="1.5" PointX="2.75" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="RandyAdminACEModel.SYS_MENU_BUTTON" Width="1.5" PointX="9.375" PointY="3.75" />
         <EntityTypeShape EntityType="RandyAdminACEModel.SYS_ROLE_MENU_BUTTON" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="RandyAdminACEModel.SYS_USER" Width="1.5" PointX="3.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

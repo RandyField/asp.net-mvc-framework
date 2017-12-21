@@ -394,6 +394,8 @@
     <Content Include="Views\Shared\_View.Button\_View.Button.add.cshtml" />
     <Content Include="Views\Shared\_View.Button\_View.Button.search.cshtml" />
     <Content Include="Views\User\Modul.Add.cshtml" />
+    <Content Include="Views\Shared\_View.Button\_View.Button.md.setrole.cshtml" />
+    <Content Include="Views\Shared\_View.Button\_View.Button.sm.setrole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

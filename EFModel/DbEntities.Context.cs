@@ -34,8 +34,8 @@ namespace EFModel
         public virtual DbSet<SYS_OPERATE_LOG> SYS_OPERATE_LOG { get; set; }
         public virtual DbSet<SYS_ROLE> SYS_ROLE { get; set; }
         public virtual DbSet<SYS_ROLE_USER> SYS_ROLE_USER { get; set; }
-        public virtual DbSet<SYS_USER> SYS_USER { get; set; }
         public virtual DbSet<SYS_MENU_BUTTON> SYS_MENU_BUTTON { get; set; }
         public virtual DbSet<SYS_ROLE_MENU_BUTTON> SYS_ROLE_MENU_BUTTON { get; set; }
+        public virtual DbSet<SYS_USER> SYS_USER { get; set; }
     }
 }

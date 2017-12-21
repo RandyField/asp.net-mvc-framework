@@ -1,4 +1,5 @@
-﻿using Common.Helper;
+﻿using Common.Enum;
+using Common.Helper;
 using DAL;
 using EFModel;
 using System;
@@ -8,21 +9,21 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-namespace BLL  
+namespace BLL
 {
-	///<summary>
-	 	///SYS_USER_BLL
-		///Author:ZhangDeng
-	///</summary>
-	public class SYS_USER_BLL
-	{	
-	    #region 单例模式
-		///<summary>
-		///create bll instance
-		///</summary>
-		private static SYS_USER_BLL instance;
-		
-		/// <summary>
+    ///<summary>
+    ///SYS_USER_BLL
+    ///Author:ZhangDeng
+    ///</summary>
+    public class SYS_USER_BLL
+    {
+        #region 单例模式
+        ///<summary>
+        ///create bll instance
+        ///</summary>
+        private static SYS_USER_BLL instance;
+
+        /// <summary>
         /// 私有构造函数，该类无法被实例化
         /// </summary>
         private SYS_USER_BLL() { }
@@ -48,7 +49,7 @@ namespace BLL
             return instance;
         }
         #endregion
-        
+
         /// <summary>
         /// 根据主键获取实体
         /// </summary>
@@ -59,46 +60,46 @@ namespace BLL
             SYS_USER model = null;
             using (var dbcontext = DbFactory.Create())
             {
-	            try
-	            {
-	            	int id = Convert.ToInt32(pkId);
-	            	Expression<Func<SYS_USER, bool>> exp = a => a.UserID == id;
-                	model = dbcontext.Get(exp);
-	            }
-	            catch (Exception ex)
-	            {
-	                Logger.Error(string.Format("SYS_USER_BLL 根据主键获取实体异常,异常信息:{0}", ex.ToString()));
-	            }
+                try
+                {
+                    int id = Convert.ToInt32(pkId);
+                    Expression<Func<SYS_USER, bool>> exp = a => a.UserID == id;
+                    model = dbcontext.Get(exp);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(string.Format("SYS_USER_BLL 根据主键获取实体异常,异常信息:{0}", ex.ToString()));
+                }
             }
             return model;
         }
-        
-         /// <summary>
+
+        /// <summary>
         /// 根据条件获取列表
         /// </summary>
         /// <param name="querymodel">条件</param>
         /// <returns></returns>
-         public List<SYS_USER> GetList(SYS_USER querymodel)
+        public List<SYS_USER> GetList(SYS_USER querymodel)
         {
             List<SYS_USER> list = null;
             using (var dbcontext = DbFactory.Create())
             {
-	            try
-	            {
-	                	int id = Convert.ToInt32(querymodel.UserID);
-	                    Expression<Func<SYS_USER, bool>> exp = a => a.UserID == id;
-	                    Expression<Func<SYS_USER, bool>> temp = a => 1 == 1;
-	                    exp = CompileLinqSearch.AndAlso(exp, temp);
-	                    list = dbcontext.Find(exp);
-	            }
-	            catch (Exception ex)
-	            {
-	                Logger.Error(string.Format("SYS_USER_BLL 根据条件获取列表异常,异常信息:{0}", ex.ToString()));
-	            }
-	        }
+                try
+                {
+                    int id = Convert.ToInt32(querymodel.UserID);
+                    Expression<Func<SYS_USER, bool>> exp = a => a.UserID == id;
+                    Expression<Func<SYS_USER, bool>> temp = a => 1 == 1;
+                    exp = CompileLinqSearch.AndAlso(exp, temp);
+                    list = dbcontext.Find(exp);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(string.Format("SYS_USER_BLL 根据条件获取列表异常,异常信息:{0}", ex.ToString()));
+                }
+            }
             return list;
         }
-        
+
         /// <summary>
         /// 新增记录
         /// </summary>
@@ -125,12 +126,12 @@ namespace BLL
             return success;
         }
 
-		/// <summary>
+        /// <summary>
         /// 删除记录
         /// </summary>
         /// <param name="model">待删除实体</param>
         /// <returns></returns>
-		public bool Remove(SYS_USER model)
+        public bool Remove(SYS_USER model)
         {
             bool success = false;
 
@@ -151,7 +152,7 @@ namespace BLL
 
             return success;
         }
-        
+
         /// <summary>
         /// 删除-注意主键要与数据库类型相同
         /// </summary>
@@ -160,7 +161,7 @@ namespace BLL
         /// <returns></returns>
         public bool Remove(string pkid)
         {
-             bool success = false;
+            bool success = false;
 
             using (var dbcontext = DbFactory.Create())
             {
@@ -193,7 +194,7 @@ namespace BLL
             using (var dbcontext = DbFactory.Create())
             {
                 try
-                {                   
+                {
                     dbcontext.BulkDelete(exp);
                     success = true;
                 }
@@ -206,7 +207,7 @@ namespace BLL
 
             return success;
         }
-        
+
         /// <summary>
         /// 编辑
         /// </summary>
@@ -232,7 +233,7 @@ namespace BLL
             }
             return success;
         }
-        
+
         /// <summary>
         /// 按条件更新
         /// </summary>
@@ -242,8 +243,8 @@ namespace BLL
         public bool Update(Expression<Func<SYS_USER, bool>> exp, Dictionary<string, object> dic)
         {
             bool success = false;
-            
-           	using (var dbcontext = DbFactory.Create())
+
+            using (var dbcontext = DbFactory.Create())
             {
                 try
                 {
@@ -255,10 +256,10 @@ namespace BLL
                     Logger.Error(string.Format("SYS_USER_BLL 按条件更新,异常信息:{0}", ex.ToString()));
                 }
             }
-            
+
             return success;
         }
-        
+
         ////// <summary>
         ////// 分页查询
         ////// </summary>
@@ -287,8 +288,8 @@ namespace BLL
         ///    }
         ///    return list;
         ///}
-        
-         /// <summary>
+
+        /// <summary>
         /// 分页查询
         /// </summary>
         /// <param name="modle"></param>
@@ -297,51 +298,100 @@ namespace BLL
         /// <param name="recordCount"></param>
         /// <param name="pageCount"></param>
         /// <returns></returns>
-        public DataTable PageQuery(SYS_USER modle,int pageIndex, int pageSize, out int recordCount, out int pageCount)
+        public DataTable PageQuery(string username, int pageIndex, int pageSize, out int recordCount, out int pageCount)
         {
             DataTable dt = new DataTable();
             using (var dbcontext = DbFactory.Create())
             {
-	            try
-	            {
-	                SearchCondition condition = new SearchCondition();
-	                if (modle!=null)
-	                {
-	                    #region 组装查询条件
-	                                
-	                    //if (!string.IsNullOrWhiteSpace(modle.PlayerNickname))
-	                    //{
-	                    //    condition.AddCondition("a.PlayerNickname", modle.PlayerNickname, SqlOperator.Like, true);                        
-	                    //}
-	
-	                    #endregion
-	                }
-	                PagerInfo pager = new PagerInfo();
+                try
+                {
+                    SearchCondition condition = new SearchCondition();
 
-	                #region 组装存储过程调用参数
+                    #region 组装查询条件
+
+                    if (!string.IsNullOrWhiteSpace(username))
+                    {
+                        condition.AddCondition("A.UserName", username, SqlOperator.Like, true);
+                    }
+
+                    #endregion
+
+                    PagerInfo pager = new PagerInfo();
+
+                    #region 组装存储过程调用参数
 
                     pager.curPage = pageIndex;
                     pager.pageSize = pageSize;
                     pager.isDescending = true;
-                    pager.fields = "B.UserName,A.*";
+                    pager.fields = "A.*,B.State";
                     pager.sortField = "A.UserID";
                     pager.indexField = "A.UserID";
                     pager.where = null;
                     pager.condition = condition;
-                    pager.tableName = " SYS_USER A INNER JOIN SYS_LOGIN B ON A.LoginID=B.ID ";
-	
-	                #endregion
+                    pager.tableName = " SYS_USER A INNER JOIN SYS_LOGIN B ON A.UserName=B.UserName ";
 
-	                dt = dbcontext.PageQuery(pager, out recordCount, out pageCount);
-	            }
-	            catch (Exception ex)
-	            {
-	                recordCount = 0;
-	                pageCount = 0;
-	                Logger.Error(string.Format("SYS_USER_BLL 分页查询异常，异常信息：{0}", ex.ToString()));
-	            }
-	        }
+                    #endregion
+
+                    dt = dbcontext.PageQuery(pager, out recordCount, out pageCount);
+                }
+                catch (Exception ex)
+                {
+                    recordCount = 0;
+                    pageCount = 0;
+                    Logger.Error(string.Format("SYS_USER_BLL 分页查询异常，异常信息：{0}", ex.ToString()));
+                }
+            }
             return dt;
         }
-	}
+
+        /// <summary>
+        /// 判断用户名是否存在
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public bool IsExist(string username)
+        {
+            bool success = false;
+
+            using (var dbcontext = DbFactory.Create())
+            {
+                Expression<Func<SYS_USER, bool>> exp=a=>a.UserName==username;
+                SYS_USER model = dbcontext.Get(exp);
+                if (model!=null)
+                {
+                    success = true;
+                }
+            }
+            return success;
+        }
+
+        /// <summary>
+        /// 保存用户信息，登录信息
+        /// </summary>
+        /// <param name="usermodel"></param>
+        /// <param name="loginmodel"></param>
+        /// <returns></returns>
+        public bool SaveUser(SYS_USER usermodel, SYS_LOGIN loginmodel)
+        {
+            bool success = false;
+
+            using (var dbcontext = DbFactory.Create())
+            {
+                try
+                {
+                    dbcontext.Insert(usermodel);
+                    dbcontext.Insert(loginmodel);
+                    dbcontext.Save();
+                    success = true;
+                }
+                catch (Exception ex)
+                {
+                    success = false;
+                    Logger.Error(string.Format("SYS_USER_BLL 按条件更新,异常信息:{0}", ex.ToString()));
+                }
+            }
+
+            return success;
+        }
+    }
 }

@@ -435,7 +435,7 @@ namespace BLL
 
                 StringBuilder strmenuSql = new StringBuilder();
                 strmenuSql.Append(" SELECT distinct(M.MenuCode),M.MenuName,M.ParentCode,M.LinkAddress,M.Sort,M.IconScript FROM  [SYS_USER]  U ");
-                strmenuSql.Append(" INNER JOIN [SYS_LOGIN] L ON L.ID =U.LoginID");
+                strmenuSql.Append(" INNER JOIN [SYS_LOGIN] L ON L.UserName =U.UserName");
                 strmenuSql.Append(" INNER JOIN [SYS_ROLE_USER] R ON R.UserID=U.UserID");
                 strmenuSql.Append(" INNER JOIN [SYS_ROLE_MENU_BUTTON] MB ON R.RoleID=MB.RoleID");
                 strmenuSql.Append(" INNER JOIN [SYS_MENU] M ON M.MenuCode=MB.MenuCode WHERE L.ID=@id order by M.ParentCode,M.Sort");
@@ -444,7 +444,7 @@ namespace BLL
                 #endregion
 
                 #region 获取用户信息
-                Expression<Func<SYS_USER, bool>> exp = a => a.LoginID == loginmodel.ID;
+                Expression<Func<SYS_USER, bool>> exp = a => a.UserName == loginmodel.UserName;
                 usermodel = dbcontext.Get(exp);
                 #endregion
 

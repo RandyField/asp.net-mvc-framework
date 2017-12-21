@@ -35,7 +35,7 @@ namespace UI.Controllers
         /// <param name="dtparam"></param>
         /// <returns></returns>
         [AuthorityFilter]
-        public string Search(jqDatatable dtparam)
+        public string Search(jqDatatable dtparam, string username)
         {
             string searchdata = "";
             try
@@ -44,7 +44,7 @@ namespace UI.Controllers
                 int pageSize = dtparam.length;
 
                 //页面索引
-                int pageIndex = dtparam.pageIndex+1;
+                int pageIndex = (dtparam.start + 1)/pageSize+1;
 
                 //记录总数
                 int recordCount = 0;
@@ -52,15 +52,17 @@ namespace UI.Controllers
                 //页面总数
                 int pageCount = 0;
 
+
+
                 //数据Datatable
-                DataTable dt = bll.PageQuery(null, pageIndex, pageSize, out recordCount, out pageCount);
+                DataTable dt = bll.PageQuery(username, pageIndex, pageSize, out recordCount, out pageCount);
 
                 dtparam.data = dt;
                 dtparam.recordsTotal = recordCount;
                 dtparam.recordsFiltered = recordCount;
 
                 //序列化             
-                searchdata = JsonConvert.SerializeObject(dtparam);            
+                searchdata = JsonConvert.SerializeObject(dtparam);
             }
             catch (Exception ex)
             {
@@ -78,6 +80,46 @@ namespace UI.Controllers
         public ActionResult Delet(string id)
         {
             return Json(new { });
+        }
+
+        /// <summary>
+        /// 保存用户信息
+        /// </summary>
+        /// <param name="usermodel"></param>
+        /// <param name="loginmodel"></param>
+        /// <returns></returns>
+        [AuthorityFilter]
+        public ActionResult Add(SYS_USER usermodel, SYS_LOGIN loginmodel)
+        {
+            bool success = false;
+            string msg = "保存成功";
+            try
+            {
+                usermodel.CreateDate = DateTime.Now;
+                usermodel.CreateUserID = UserSession.AccountInfo.UserID;
+                loginmodel.CreateDate = DateTime.Now;
+                loginmodel.CreateUserID = UserSession.AccountInfo.UserID;
+                loginmodel.State = 0;
+                
+                if (!bll.IsExist(loginmodel.UserName))
+                {
+                    success = bll.SaveUser(usermodel, loginmodel);
+                }
+                else
+                {
+                    msg = "用户名已存在";
+                }             
+            }
+            catch (Exception ex)
+            {
+                Common.Helper.Logger.Info(string.Format("保存用户信息，保存异常，异常信息：{0}", ex.ToString()));
+                msg = "保存异常";
+            }
+            return this.Json(new
+            {
+                success = success,
+                msg = msg
+            });
         }
     }
 }

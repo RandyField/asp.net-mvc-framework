@@ -15,7 +15,7 @@ namespace EFModel
     public partial class SYS_USER
     {
         public int UserID { get; set; }
-        public Nullable<int> LoginID { get; set; }
+        public string UserName { get; set; }
         public string DepartCode { get; set; }
         public string RealName { get; set; }
         public string Sex { get; set; }
