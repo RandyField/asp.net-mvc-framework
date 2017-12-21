@@ -468,8 +468,35 @@ namespace BLL
 
                 SessionHelper.Add("Account", user, 30);
 
-                
+
             }
         }
+
+
+        /// <summary>
+        /// 判断用户是否授权
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public SYS_LOGIN GetByUserID(string id)
+        {
+            SYS_LOGIN model = null;
+            using (var dbcontext = DbFactory.Create())
+            {
+                try
+                {
+                    string username=SYS_USER_BLL.getInstance().GetById(id).UserName;
+                    Expression<Func<SYS_LOGIN, bool>> exp = a => a.UserName == username;
+                    model = dbcontext.Get(exp);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(string.Format("判断用户是否授权,异常，异常信息：UserID-【0】-{1}", id, ex.ToString()));
+                }
+            }
+
+            return model;
+        }
+
     }
 }

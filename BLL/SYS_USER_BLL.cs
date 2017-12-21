@@ -159,7 +159,7 @@ namespace BLL
         /// <param name="id"></param>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public bool Remove(string pkid)
+        public bool Remove(string pkid,int loginid)
         {
             bool success = false;
 
@@ -169,6 +169,8 @@ namespace BLL
                 {
                     int id = Convert.ToInt32(pkid);
                     Expression<Func<SYS_USER, bool>> exp = a => a.UserID == id;
+                    Expression<Func<SYS_LOGIN, bool>> exp1 = a => a.ID == loginid;
+                    dbcontext.Delete(exp1);
                     dbcontext.Delete(exp);
                     dbcontext.Save();
                     success = true;
@@ -344,6 +346,7 @@ namespace BLL
             return dt;
         }
 
+       
         /// <summary>
         /// 判断用户名是否存在
         /// </summary>
@@ -387,7 +390,40 @@ namespace BLL
                 catch (Exception ex)
                 {
                     success = false;
-                    Logger.Error(string.Format("SYS_USER_BLL 按条件更新,异常信息:{0}", ex.ToString()));
+                    Logger.Error(string.Format("SYS_USER_BLL 插入用户信息,异常信息:{0}", ex.ToString()));
+                }
+            }
+
+            return success;
+        }
+
+        /// <summary>
+        /// 编辑用户信息，登录信息
+        /// </summary>
+        /// <param name="usermodel"></param>
+        /// <param name="loginmodel"></param>
+        /// <returns></returns>
+        public bool EditUser(SYS_USER usermodel, SYS_LOGIN loginmodel)
+        {
+            bool success = false;
+
+            using (var dbcontext = DbFactory.Create())
+            {
+                try
+                {
+                    //重置密码
+                    if (!string.IsNullOrWhiteSpace(loginmodel.UserPassword))
+                    {
+                        dbcontext.Update(loginmodel);
+                    }
+                    dbcontext.Update(usermodel);
+                    dbcontext.Save();
+                    success = true;
+                }
+                catch (Exception ex)
+                {
+                    success = false;
+                    Logger.Error(string.Format("SYS_USER_BLL 编辑用户信息,异常信息:{0}", ex.ToString()));
                 }
             }
 

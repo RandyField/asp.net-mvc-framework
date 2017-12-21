@@ -1,19 +1,20 @@
-﻿<div id="my-modal" class="modal fade" tabindex="-1">
+﻿<div id="my-modal-edit" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="smaller lighter blue no-margin">新增用户</h3>
+                <h3 class="smaller lighter blue no-margin">编辑用户</h3>
             </div>
 
             <div class="modal-body">
                 <!-- PAGE CONTENT BEGINS -->
-                <form class="form-horizontal" id="form-add" role="form">
+                <form class="form-horizontal" id="form-edit" role="form">
+                    <input type="text" id="form-field-1" disabled="disabled" name="txtuserid" hidden="hidden"  class="col-xs-10 col-sm-5" />
                     <div class="form-group">
                         <label class="col-sm-3 control-label no-padding-right" for="form-field-1">用户名</label>
 
                         <div class="col-sm-9">
-                            <input type="text" id="form-field-1" name="txtusername" placeholder="请输入用户名" class="col-xs-10 col-sm-5" />
+                            <input type="text" id="form-field-1" disabled="disabled" name="txtusername" placeholder="请输入用户名" class="col-xs-10 col-sm-5" />
                         </div>
                     </div>
 
@@ -101,9 +102,9 @@
             </div>
 
             <div class="modal-footer">
-                <button class="btn btn-sm btn-success" id="btnSave">
+                <button class="btn btn-sm btn-success" id="btnEditSave">
                     <i class="ace-icon fa fa-check pull-right"></i>
-                    确定
+                    保存
                 </button>
                 <button class="btn btn-sm btn-danger pull-right" data-dismiss="modal">
                     <i class="ace-icon fa fa-times"></i>

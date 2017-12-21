@@ -1,0 +1,115 @@
+﻿<div id="my-modal-add" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="smaller lighter blue no-margin">新增用户</h3>
+            </div>
+
+            <div class="modal-body">
+                <!-- PAGE CONTENT BEGINS -->
+                <form class="form-horizontal" id="form-add" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">用户名</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" id="form-field-1" name="txtusername" placeholder="请输入用户名" class="col-xs-10 col-sm-5" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">密码</label>
+
+                        <div class="col-sm-9">
+                            <input type="password" id="form-field-1" name="txtpwd" placeholder="请输入密码" class="col-xs-10 col-sm-5" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">重复密码</label>
+
+                        <div class="col-sm-9">
+                            <input type="password" id="form-field-1" name="txtrepwd" placeholder="请再次输入密码" class="col-xs-10 col-sm-5" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">姓名</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" id="form-field-1" name="txtname" placeholder="请输入姓名" class="col-xs-10 col-sm-5" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-3 no-padding-right">性别</label>
+
+                        <div class="col-xs-12 col-sm-9">
+                            <div>
+                                <label class="line-height-1 blue">
+                                    <input name="gender" value="1" class="ace" type="radio">
+                                    <span class="lbl"> 男</span>
+                                </label>
+                            </div>
+
+                            <div>
+                                <label class="line-height-1 blue">
+                                    <input name="gender" value="2" class="ace" type="radio">
+                                    <span class="lbl"> 女</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">电子邮箱</label>
+
+                        <div class="col-sm-9">
+                            <input id="form-field-1" type="email" name="txtemail" placeholder="请输入邮箱地址" class="col-xs-10 col-sm-5" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">电话</label>
+
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="ace-icon fa fa-phone"></i>
+                                </span>
+                                <input type="text" id="form-field-1" name="txtphone" placeholder="请输入电话" class="col-xs-10 col-sm-5" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">QQ</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" id="form-field-1" name="txtqq" placeholder="请输入QQ" class="col-xs-10 col-sm-5" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">微信</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" id="form-field-1" name="txtwechat" placeholder="请输入微信" class="col-xs-10 col-sm-5" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-success" id="btnAddSave">
+                    <i class="ace-icon fa fa-check pull-right"></i>
+                    保存
+                </button>
+                <button class="btn btn-sm btn-danger pull-right" data-dismiss="modal">
+                    <i class="ace-icon fa fa-times"></i>
+                    关闭
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
