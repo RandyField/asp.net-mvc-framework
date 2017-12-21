@@ -342,5 +342,26 @@ namespace BLL
 	        }
             return dt;
         }
+
+        /// <summary>
+        /// 获取角色列表
+        /// </summary>
+        /// <returns></returns>
+        public List<SYS_ROLE> GetRoleList()
+        {
+            List<SYS_ROLE> list = null;
+            using (var dbcontext = DbFactory.Create())
+            {
+                try
+                {
+                   list= dbcontext.All<SYS_ROLE>().ToList();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(string.Format("SYS_ROLE_BLL 获取角色列表异常，异常信息：{0}", ex.ToString()));
+                }
+            }
+            return list;
+        }
 	}
 }

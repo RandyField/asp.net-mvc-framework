@@ -397,6 +397,11 @@
     <Content Include="Views\Shared\_View.Button\_View.Button.md.setrole.cshtml" />
     <Content Include="Views\Shared\_View.Button\_View.Button.sm.setrole.cshtml" />
     <Content Include="Views\User\Modal.Edit.cshtml" />
+    <Content Include="Views\Shared\_View.Button\_View.Button.md.Unlock.cshtml" />
+    <Content Include="Views\Shared\_View.Button\_View.Button.sm.Unlock.cshtml" />
+    <Content Include="Views\Shared\_View.Button\_View.Button.md.Lock.cshtml" />
+    <Content Include="Views\Shared\_View.Button\_View.Button.sm.Lock.cshtml" />
+    <Content Include="Views\User\Modal.Setrole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

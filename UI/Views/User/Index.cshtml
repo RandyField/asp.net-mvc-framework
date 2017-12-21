@@ -20,7 +20,7 @@
         </div>
         @Html.Partial("Modal.Add")
         @Html.Partial("Modal.Edit")
-
+        @Html.Partial("Modal.Setrole")
         <div class="col-xs-12">
             <h3 class="header smaller lighter blue">用户列表</h3>
 
@@ -61,19 +61,19 @@
             </div>
         </div>
     </div>
-
-    @section scripts {
-        <!-- page specific plugin scripts -->
-        <script src="~/assets/js/jquery.dataTables.min.js"></script>
-        <script src="~/assets/js/jquery.dataTables.bootstrap.min.js"></script>
-        <script src="~/assets/js/dataTables.buttons.min.js"></script>
-        <script src="~/assets/js/buttons.flash.min.js"></script>
-        <script src="~/assets/js/buttons.html5.min.js"></script>
-        <script src="~/assets/js/buttons.print.min.js"></script>
-        <script src="~/assets/js/buttons.colVis.min.js"></script>
-        <script src="~/assets/js/dataTables.select.min.js"></script>
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-        <script type="text/javascript">
+</div>
+@section scripts {
+    <!-- page specific plugin scripts -->
+    <script src="~/assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/assets/js/jquery.dataTables.bootstrap.min.js"></script>
+    <script src="~/assets/js/dataTables.buttons.min.js"></script>
+    <script src="~/assets/js/buttons.flash.min.js"></script>
+    <script src="~/assets/js/buttons.html5.min.js"></script>
+    <script src="~/assets/js/buttons.print.min.js"></script>
+    <script src="~/assets/js/buttons.colVis.min.js"></script>
+    <script src="~/assets/js/dataTables.select.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
             jQuery(function ($) {
 
                 //initiate dataTables plugin
@@ -82,15 +82,8 @@
                     .on('draw.dt', function () {
                         $("a[data-type='operation']").each(function () {
                             var id = $(this).parents("tr").find("td").eq(0).find("input").attr("data-id");
-
-                            //详情
-                            if ($(this).attr("data-title") == "View") {
-                                $(this).on("click", function () {
-
-                                });
-                            }
-                                //删除
-                            else if ($(this).attr("data-title") == "Delete") {
+                            //删除
+                            if ($(this).attr("data-title") == "Delete") {
                                 $(this).on("click", function () {
 
                                     //swal提示
@@ -117,10 +110,10 @@
                                                         swal("删除成功!", {
                                                             icon: "success",
                                                         });
-                                                        myTable.draw();
+                                                        myTable.draw(false);
                                                     }
                                                     else {
-                                                        swal("删除失败!"+result.msg+"", {
+                                                        swal("删除失败!" + result.msg + "", {
                                                             icon: "error",
                                                         });
                                                     }
@@ -160,18 +153,105 @@
                                             $("#my-modal-edit").find("input[name='txtname']").val(result.RealName);
                                             $("#my-modal-edit").find("input[name='gender']").each(function () {
                                                 if ($(this).val() == $.trim(result.Sex)) {
-                                                    $(this).prop("checked", 'checked');                                                    
-                                                } 
+                                                    $(this).prop("checked", 'checked');
+                                                }
                                             });
                                             $("#my-modal-edit").find("input[name='txtemail']").val(result.E_mail);
                                             $("#my-modal-edit").find("input[name='txtphone']").val(result.Phone);
                                             $("#my-modal-edit").find("input[name='txtqq']").val(result.QQ);
-                                            $("#my-modal-edit").find("input[name='txtwechat']").val(result.Wechat);                                           
+                                            $("#my-modal-edit").find("input[name='txtwechat']").val(result.Wechat);
                                         },
                                         error: function () {
                                             swal("获取用户信息失败!", {
                                                 icon: "error",
                                             });
+                                        }
+                                    });
+                                });
+                            }
+                                //禁用用户
+                            else if ($(this).attr("data-title") == "Lock") {
+                                $(this).on("click", function () {
+                                    var data = {};
+                                    data["id"] = id;
+                                    $.ajax({
+                                        type: 'post',//可选get
+                                        url: "../User/LockUser",
+                                        data: JSON.stringify(data),
+                                        contentType: "application/json", //必须有
+                                        dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
+                                        success: function (result) {
+                                            if (result.success) {
+                                                swal("禁用成功!", {
+                                                    icon: "success",
+                                                });
+                                                myTable.draw(false);
+                                            }
+                                            else {
+                                                swal("禁用失败!" + result.msg + "", {
+                                                    icon: "error",
+                                                });
+                                            }
+                                        },
+                                        error: function () {
+                                            swal("禁用用户失败!", {
+                                                icon: "error",
+                                            });
+                                        }
+                                    });
+                                });
+                            }
+                                //启用用户
+                            else if ($(this).attr("data-title") == "Unlock") {
+                                $(this).on("click", function () {
+                                    var data = {};
+                                    data["id"] = id;
+                                    $.ajax({
+                                        type: 'post',//可选get
+                                        url: "../User/StartUser",
+                                        data: JSON.stringify(data),
+                                        contentType: "application/json", //必须有
+                                        dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
+                                        success: function (result) {
+                                            if (result.success) {
+                                                swal("启用成功!", {
+                                                    icon: "success",
+                                                });
+                                                myTable.draw(false);
+                                            }
+                                            else {
+                                                swal("启用失败!"+result.msg+"", {
+                                                    icon: "error",
+                                                });
+                                            }
+                                        },
+                                        error: function () {
+                                            swal("启用用户失败!", {
+                                                icon: "error",
+                                            });
+                                        }
+                                    });
+                                });
+                            }
+                                //设置角色
+                            else if ($(this).attr("data-title") == "Setrole") {
+                                $(this).on("click", function () {
+                                    $.ajax({
+                                        type: 'post',//可选get
+                                        url: "../User/GetRole",
+                                        data: JSON.stringify(data),
+                                        contentType: "application/json", //必须有
+                                        dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
+                                        success: function (result) {
+                                            if (result.success) {
+                                             
+                                            }
+                                            else {
+                                               
+                                            }
+                                        },
+                                        error: function () {
+                                            
                                         }
                                     });
                                 });
@@ -209,18 +289,6 @@
                         {
                             "data": "RealName"
                         },
-                        //{
-                        //    "data": "Phone"
-                        //},
-                        //{
-                        //    "data": "QQ"
-                        //},
-                        //{
-                        //    "data": "Wechat"
-                        //},
-                        //{
-                        //    "data": "E-mail"
-                        //},
                         {
                             "data": "State",
                             "render": function (data, type, row, meta) {
@@ -229,7 +297,7 @@
                                 } else if (data == "1") {
                                     return '<span class="label label-sm label-success">启用</span>';
                                 } else if (data == "2") {
-                                    return '<span class="label label-sm label-inverse arrowed-in">锁定</span>';
+                                    return '<span class="label label-sm label-inverse arrowed-in">禁用</span>';
                                 }
                             }
                         },
@@ -251,7 +319,7 @@
                     serverSide: true,  //开启服务器模式
                     searching: false,  //禁用搜索
                     ordering: false,   //禁用排序
-                    "iDisplayLength": 15, //每页默认显示数据条数
+                    "iDisplayLength": 5, //每页默认显示数据条数
                     "aLengthMenu": [
                       [5, 15, 20, 50],
                       [5, 15, 20, 50]
@@ -294,7 +362,7 @@
                                     icon: "success",
                                 });
                                 $('#form-add')[0].reset();
-                                myTable.draw();
+                                myTable.draw(false);
                             }
                             else {
                                 swal("保存失败!" + result.msg + "", {
@@ -335,7 +403,7 @@
                                     icon: "success",
                                 });
                                 $('#form-add')[0].reset();
-                                myTable.draw();
+                                myTable.draw(false);
                             }
                             else {
                                 swal("保存失败!" + result.msg + "", {
@@ -345,6 +413,36 @@
                         },
                         error: function () {
                             swal("保存失败!" + result.msg + "", {
+                                icon: "success",
+                            });
+                        }
+                    });
+                });
+
+                //设置角色-保存
+                $("#btnSetSave").on("click", function () {
+                    $.ajax({
+                        type: 'post',//可选get
+                        url: "../User/SetRole",
+                        data: JSON.stringify(data),
+                        contentType: "application/json", //必须有
+                        dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
+                        success: function (result) {
+                            if (result.success) {
+                                swal("设置成功!", {
+                                    icon: "success",
+                                });
+                                $('#form-add')[0].reset();
+                                myTable.draw(false);
+                            }
+                            else {
+                                swal("设置失败!" + result.msg + "", {
+                                    icon: "error",
+                                });
+                            }
+                        },
+                        error: function () {
+                            swal("设置失败!" + result.msg + "", {
                                 icon: "success",
                             });
                         }
@@ -530,46 +628,63 @@
 
 
             })
-        </script>
-    }
-
-    <!--操作按钮-->
-    <script type="text/html" id="operation">
-        <div class="hidden-sm hidden-xs action-buttons">
-            @if (btnlist.Exists(p => p.Code.Contains("edit")))
-            {
-                @Html.Partial("_View.Button/_View.Button.md.Edit")
-            }
-            @if (btnlist.Exists(p => p.Code.Contains("delete")))
-            {
-                @Html.Partial("_View.Button/_View.Button.md.Delete")
-            }
-            @if (btnlist.Exists(p => p.Code.Contains("setrole")))
-            {
-                @Html.Partial("_View.Button/_View.Button.md.setrole")
-            }
-        </div>
-
-        <div class="hidden-md hidden-lg">
-            <div class="inline pos-rel">
-                <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                    <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
-                </button>
-
-                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">       
-                    @if (btnlist.Exists(p => p.Code.Contains("edit")))
-                    {
-                        @Html.Partial("_View.Button/_View.Button.sm.Edit")
-                    }
-                    @if (btnlist.Exists(p => p.Code.Contains("delete")))
-                    {
-                        @Html.Partial("_View.Button/_View.Button.sm.Delete")
-                    }
-                    @if (btnlist.Exists(p => p.Code.Contains("setrole")))
-                    {
-                        @Html.Partial("_View.Button/_View.Button.sm.setrole")
-                    }
-                </ul>
-            </div>
-        </div>
     </script>
+}
+
+<!--操作按钮-->
+<script type="text/html" id="operation">
+    <div class="hidden-sm hidden-xs action-buttons">
+        @if (btnlist.Exists(p => p.Code.Contains("edit")))
+        {
+            @Html.Partial("_View.Button/_View.Button.md.Edit")
+        }
+        @if (btnlist.Exists(p => p.Code.Contains("delete")))
+        {
+            @Html.Partial("_View.Button/_View.Button.md.Delete")
+        }
+        @if (btnlist.Exists(p => p.Code.Contains("setrole")))
+        {
+            @Html.Partial("_View.Button/_View.Button.md.setrole")
+        }
+        @if (btnlist.Exists(p => p.Code.Contains("lock")))
+        {
+            @Html.Partial("_View.Button/_View.Button.md.Lock")
+        }
+        @if (btnlist.Exists(p => p.Code.Contains("start")))
+        {
+            @Html.Partial("_View.Button/_View.Button.md.Unlock")
+        }
+    </div>
+
+    <div class="hidden-md hidden-lg">
+        <div class="inline pos-rel">
+            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+            </button>
+
+            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                @if (btnlist.Exists(p => p.Code.Contains("edit")))
+                    {
+                    @Html.Partial("_View.Button/_View.Button.sm.Edit")
+                    }
+                @if (btnlist.Exists(p => p.Code.Contains("delete")))
+                    {
+                    @Html.Partial("_View.Button/_View.Button.sm.Delete")
+                    }
+                @if (btnlist.Exists(p => p.Code.Contains("setrole")))
+                    {
+                    @Html.Partial("_View.Button/_View.Button.sm.setrole")
+                    }
+                @if (btnlist.Exists(p => p.Code.Contains("lock")))
+                    {
+                    @Html.Partial("_View.Button/_View.Button.sm.Lock")
+                    }
+                @if (btnlist.Exists(p => p.Code.Contains("start")))
+                    {
+                    @Html.Partial("_View.Button/_View.Button.sm.Unlock")
+                    }
+
+            </ul>
+        </div>
+    </div>
+</script>

@@ -60,5 +60,14 @@ namespace UI.Controllers
             ViewBag.First = firstmenu;
             ViewBag.Second = secondmenu;
         }
+
+        /// <summary>
+        /// 获取
+        /// </summary>
+        /// <returns></returns>
+        public void GetRoleList()
+        {
+            this.ViewData["RoleList"] = SYS_ROLE_BLL.getInstance().GetRoleList();
+        }
     }
 }

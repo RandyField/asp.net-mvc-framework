@@ -313,9 +313,9 @@ namespace BLL
 
                     if (!string.IsNullOrWhiteSpace(username))
                     {
-                        condition.AddCondition("A.UserName", username, SqlOperator.Like, true);
+                        condition.AddCondition("A.UserName", username, SqlOperator.Like, true);                      
                     }
-
+                    condition.AddCondition("A.UserName", "admin", SqlOperator.NotEqual, true);
                     #endregion
 
                     PagerInfo pager = new PagerInfo();

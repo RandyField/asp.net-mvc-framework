@@ -27,6 +27,7 @@ namespace UI.Controllers
             Location("系统管理", "用户管理"); //UI-当前位置
             ViewBag.Title = "User Page - 用户管理"; //UI-页面标题
             base.GetButtonPage(menucode);
+            base.GetRoleList();
             return View();
         }
 
@@ -179,15 +180,22 @@ namespace UI.Controllers
             string msg = "";
             try
             {
+                SYS_USER editmodel = SYS_USER_BLL.getInstance().GetById(usermodel.UserID.ToString());
+                SYS_LOGIN logineditmodel = SYS_LOGIN_BLL.getInstance().GetByUserID(usermodel.UserID.ToString());
                 //输入密码
                 if (!string.IsNullOrWhiteSpace(loginmodel.UserPassword))
                 {
+
                     loginmodel.UpdateDate = DateTime.Now;
                     loginmodel.UpdateUserID = UserSession.AccountInfo.UserID;
+                    loginmodel.CreateUserID = logineditmodel.CreateUserID;
+                    loginmodel.CreateDate = loginmodel.CreateDate;
                     loginmodel.UserPassword = EncryptHelper.MD5DecryptString(loginmodel.UserPassword);
                 }
                 usermodel.UpdateDate = DateTime.Now;
                 usermodel.UpdateUserID = UserSession.AccountInfo.UserID;
+                usermodel.CreateDate = editmodel.CreateDate;
+                usermodel.CreateUserID = editmodel.CreateUserID;
                 success = bll.EditUser(usermodel, loginmodel);
             }
             catch (Exception ex)
@@ -201,5 +209,95 @@ namespace UI.Controllers
                 msg = msg
             });
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [AuthorityFilter]
+        public ActionResult LockUser(string id)
+        {
+            bool success = false;
+            string msg = "";
+            try
+            {
+                SYS_LOGIN_BLL loginbll = SYS_LOGIN_BLL.getInstance();
+                SYS_LOGIN model = loginbll.GetByUserID(id);
+                if (model.State != 2 && model.State != 0)
+                {
+                    model.State = 2;
+                    success = loginbll.Edit(model);
+                }
+                else if (model.State==0)
+                {
+                    msg = "用户尚未授权,无法禁用";
+                }
+                else if (model.State == 2)
+                {
+                    msg = "用户已禁用,请勿重复禁用";
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.Helper.Logger.Info(string.Format("锁定用户保存异常，异常信息：{0}", ex.ToString()));
+                msg = "锁定发生异常";
+            }
+            return this.Json(new
+            {
+                success = success,
+                msg = msg
+            });
+
+        }
+        /// <summary>
+        /// 启用用户
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [AuthorityFilter]
+        public ActionResult StartUser(string id)
+        {
+            bool success = false;
+            string msg = "";
+            try
+            {
+                SYS_LOGIN_BLL loginbll = SYS_LOGIN_BLL.getInstance();
+                SYS_LOGIN model = loginbll.GetByUserID(id);
+                if (model.State == 2)
+                {
+                    model.State = 1;
+                    success = loginbll.Edit(model);
+                }
+                else if (model.State == 0)
+                {
+                    msg = "用户尚未授权,无法启用";
+                }
+                else if (true)
+                {
+                    msg = "用户已启用,请勿重复启用";
+                }                        
+            }
+            catch (Exception ex)
+            {
+                Common.Helper.Logger.Info(string.Format("启用用户保存异常，异常信息：{0}", ex.ToString()));
+                msg = "启用用户发生异常";
+            }
+            return this.Json(new
+            {
+                success = success,
+                msg = msg
+            });
+        }
+
+        ///// <summary>
+        ///// 获取用户所属角色
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <returns></returns>
+        //public ActionResult GetRole(string id)
+        //{
+
+        //}
     }
 }

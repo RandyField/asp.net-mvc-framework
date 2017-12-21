@@ -474,7 +474,7 @@ namespace BLL
 
 
         /// <summary>
-        /// 判断用户是否授权
+        /// 获取登录信息
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
