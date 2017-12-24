@@ -1,4 +1,5 @@
-﻿using Common.Helper;
+﻿using Common.Enum;
+using Common.Helper;
 using DAL;
 using EFModel;
 using System;
@@ -297,7 +298,7 @@ namespace BLL
         /// <param name="recordCount"></param>
         /// <param name="pageCount"></param>
         /// <returns></returns>
-        public DataTable PageQuery(SYS_BUTTON modle,int pageIndex, int pageSize, out int recordCount, out int pageCount)
+        public DataTable PageQuery(string btnname,int pageIndex, int pageSize, out int recordCount, out int pageCount)
         {
             DataTable dt = new DataTable();
             using (var dbcontext = DbFactory.Create())
@@ -305,30 +306,27 @@ namespace BLL
 	            try
 	            {
 	                SearchCondition condition = new SearchCondition();
-	                if (modle!=null)
+	                if (!string.IsNullOrWhiteSpace(btnname))
 	                {
 	                    #region 组装查询条件
-	                                
-	                    //if (!string.IsNullOrWhiteSpace(modle.PlayerNickname))
-	                    //{
-	                    //    condition.AddCondition("a.PlayerNickname", modle.PlayerNickname, SqlOperator.Like, true);                        
-	                    //}
-	
+
+                        condition.AddCondition("Name", btnname, SqlOperator.Like, true);
+                       	
 	                    #endregion
 	                }
 	                PagerInfo pager = new PagerInfo();
+
 	                #region 组装存储过程调用参数
-	                
-	                
-	                //pager.curPage = pageIndex;
-	                //pager.pageSize = pageSize;
-	                //pager.isDescending = true;
-	                //pager.fields = "a.*,c.GameName";
-	                //pager.sortField = "a.UploadTime";
-	                //pager.indexField = "a.ID";
-	                //pager.where = null;
-	                //pager.condition = condition;
-	                //pager.tableName = "[ZhpGame].[dbo].[Zhp_GameRecord] a left join  [Zhp_OnlineGame] b on a.Gameid=b.Gameid left join [Zhp_GameConfig] c on b.GameCode= c.GameCode ";
+
+                    pager.curPage = pageIndex;
+                    pager.pageSize = pageSize;
+                    pager.isDescending = true;
+                    pager.fields = "*";
+                    pager.sortField = "ID";
+                    pager.indexField = "ID";
+                    pager.where = null;
+                    pager.condition = condition;
+                    pager.tableName = "SYS_BUTTON ";
 	
 	                #endregion
 	                dt = dbcontext.PageQuery(pager, out recordCount, out pageCount);

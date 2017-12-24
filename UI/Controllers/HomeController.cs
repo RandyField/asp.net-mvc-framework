@@ -18,7 +18,7 @@ namespace UI.Controllers
         {
             GetMenu(); //获取菜单
             Location("ace后台", "首页"); //当前位置
-            ViewBag.Title = "Main Page - 首页 "; 
+            ViewBag.Title = "Main Page - 首页 ";
             return View();
         }
 

@@ -31,10 +31,9 @@ namespace Web.Attribute
         }
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            if (filterContext.Exception == null)
+            if (filterContext.Exception != null)
             {
-                //filterContext.HttpContext.Response.Write(
-                //   "123");
+                filterContext.HttpContext.Response.Redirect("/Error/Index");
             } 
         }
     }

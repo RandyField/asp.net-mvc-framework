@@ -135,22 +135,31 @@ namespace BLL
             {
                 try
                 {
-                    foreach (var item in list)
+                    //批量删除
+                    int keyid = Convert.ToInt32(userid);
+                    Expression<Func<SYS_ROLE_USER, bool>> exp = a => a.UserID == keyid;
+                    dbcontext.Delete(exp);
+
+                    //批量插入
+                    if (list != null && list.Count > 0)
                     {
-                        Expression<Func<SYS_ROLE_USER, bool>> exp = a => a.UserID == item.UserID;
-                        Expression<Func<SYS_ROLE_USER, bool>> exp1 = a => a.RoleID == item.RoleID;
-                        exp = CompileLinqSearch.AndAlso(exp, exp1);
-                        if (dbcontext.Get(exp) == null)
+                        foreach (var item in list)
                         {
-                            dbcontext.Insert(item);
+                            dbcontext.Insert(item);                          
                         }
+                        //改变授权状态 已授权
+                        SYS_LOGIN loginmodel = SYS_LOGIN_BLL.getInstance().GetByUserID(userid);
+                        loginmodel.State = 1;
+                        dbcontext.Update(loginmodel);
                     }
-
-                    //改变授权状态
-                    SYS_LOGIN loginmodel = SYS_LOGIN_BLL.getInstance().GetByUserID(userid);
-                    loginmodel.State = 1;
-                    dbcontext.Update(loginmodel);
-
+                    else
+                    {
+                        //改变授权状态 未授权
+                        SYS_LOGIN loginmodel = SYS_LOGIN_BLL.getInstance().GetByUserID(userid);
+                        loginmodel.State = 0;
+                        dbcontext.Update(loginmodel);
+                    }
+             
                     //保存
                     dbcontext.Save();
                     success = true;

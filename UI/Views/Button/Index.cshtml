@@ -5,11 +5,11 @@
 
 <div class="row">
     <div class='col-xs-12'>
-        <h3 class="header smaller lighter blue">用户管理</h3>
+        <h3 class="header smaller lighter blue">按钮管理</h3>
         <div id='sample-table-2_filter' class='dataTables_filter'>
             <label>
-                用户名:
-                <input aria-controls='sample-table-2' id="username" type='text'>
+                按钮名称:
+                <input aria-controls='sample-table-2' id="btnname" type='text'>
             </label>
             @Html.Partial("_View.Button/_View.Button.search")
             @if (btnlist.Exists(p => p.Code.Contains("add")))
@@ -20,9 +20,8 @@
         </div>
         @Html.Partial("Modal.Add")
         @Html.Partial("Modal.Edit")
-        @Html.Partial("Modal.Setrole")
         <div class="col-xs-12">
-            <h3 class="header smaller lighter blue">用户列表</h3>
+            <h3 class="header smaller lighter blue">按钮列表</h3>
 
             <div class="clearfix">
                 <div class="pull-right tableTools-container"></div>
@@ -44,17 +43,17 @@
                                     <span class="lbl"></span>
                                 </label>
                             </th>
-                            <th>用户名</th>
-                            <th>姓名</th>
+                            <th>按钮名称</th>
+                            <th>按钮编码</th>
                             <!--<th class="hidden-480">电话</th>
                             <th>QQ</th>
                             <th class="hidden-480">微信</th>
-                            <th class="hidden-480">邮箱</th>-->
-                            <th class="hidden-480">状态</th>
+                            <th class="hidden-480">邮箱</th>
+                            <th class="hidden-480">状态</th>-->
                             <th class="hidden-480">
                                 <i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>创建时间
                             </th>
-                            <th>操作（ 编辑/ 删除/ 设置角色/ 设置用户）</th>
+                            <th>操作（ 编辑/ 删除 ）</th>
                         </tr>
                     </thead>
                 </table>
@@ -100,7 +99,7 @@
                                         data["id"] = id;
                                         $.ajax({
                                             type: 'post',//可选get
-                                            url: "../User/Delet",
+                                            url: "../Button/Delet",
                                             data: JSON.stringify(data),
                                             contentType: "application/json", //必须有
                                             dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
@@ -141,132 +140,20 @@
                                 data["id"] = id;
                                 $.ajax({
                                     type: 'post',//可选get
-                                    url: "../User/GetUser",
+                                    url: "../Button/Get",
                                     data: JSON.stringify(data),
                                     contentType: "application/json", //必须有
                                     dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
                                     success: function (result) {
-                                        $("#my-modal-edit").find("input[name='txtuserid']").val(result.UserID);
-                                        $("#my-modal-edit").find("input[name='txtusername']").val(result.UserName);
-                                        $("#my-modal-edit").find("input[name='txtpwd']").val(result.UserPassword);
-                                        $("#my-modal-edit").find("input[name='txtname']").val(result.RealName);
-                                        $("#my-modal-edit").find("input[name='gender']").each(function () {
-                                            if ($(this).val() == $.trim(result.Sex)) {
-                                                $(this).prop("checked", 'checked');
-                                            }
-                                        });
-                                        $("#my-modal-edit").find("input[name='txtemail']").val(result.E_mail);
-                                        $("#my-modal-edit").find("input[name='txtphone']").val(result.Phone);
-                                        $("#my-modal-edit").find("input[name='txtqq']").val(result.QQ);
-                                        $("#my-modal-edit").find("input[name='txtwechat']").val(result.Wechat);
+                                        $("#my-modal-edit").find("input[name='txtid']").val(result.ID);
+                                        $("#my-modal-edit").find("input[name='txtbtnname']").val(result.Name);
+                                        $("#my-modal-edit").find("input[name='txtcode']").val(result.Code);
+                                        $("#my-modal-edit").find("input[name='txtsort']").val(result.Sort);                                        
                                     },
                                     error: function () {
-                                        swal("获取用户信息失败!", {
+                                        swal("获取按钮信息失败!", {
                                             icon: "error",
                                         });
-                                    }
-                                });
-                            });
-                        }
-                            //禁用用户
-                        else if ($(this).attr("data-title") == "Lock") {
-                            $(this).on("click", function () {
-                                var data = {};
-                                data["id"] = id;
-                                $.ajax({
-                                    type: 'post',//可选get
-                                    url: "../User/LockUser",
-                                    data: JSON.stringify(data),
-                                    contentType: "application/json", //必须有
-                                    dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
-                                    success: function (result) {
-                                        if (result.success) {
-                                            swal("禁用成功!", {
-                                                icon: "success",
-                                            });
-                                            myTable.draw(false);
-                                        }
-                                        else {
-                                            swal("禁用失败!" + result.msg + "", {
-                                                icon: "error",
-                                            });
-                                        }
-                                    },
-                                    error: function () {
-                                        swal("禁用用户失败!", {
-                                            icon: "error",
-                                        });
-                                    }
-                                });
-                            });
-                        }
-                            //启用用户
-                        else if ($(this).attr("data-title") == "Unlock") {
-                            $(this).on("click", function () {
-                                var data = {};
-                                data["id"] = id;
-                                $.ajax({
-                                    type: 'post',//可选get
-                                    url: "../User/StartUser",
-                                    data: JSON.stringify(data),
-                                    contentType: "application/json", //必须有
-                                    dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
-                                    success: function (result) {
-                                        if (result.success) {
-                                            swal("启用成功!", {
-                                                icon: "success",
-                                            });
-                                            myTable.draw(false);
-                                        }
-                                        else {
-                                            swal("启用失败!" + result.msg + "", {
-                                                icon: "error",
-                                            });
-                                        }
-                                    },
-                                    error: function () {
-                                        swal("启用用户失败!", {
-                                            icon: "error",
-                                        });
-                                    }
-                                });
-                            });
-                        }
-                            //设置角色
-                        else if ($(this).attr("data-title") == "Setrole") {
-                            $(this).on("click", function () {
-                                var data = {};
-                                data["id"] = id;
-                                $("#my-modal-setrole").find("input[name='txtuserid']").val(id);
-                                $.ajax({
-                                    type: 'post',//可选get
-                                    url: "../User/GetRole",
-                                    data: JSON.stringify(data),
-                                    contentType: "application/json", //必须有
-                                    dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
-                                    success: function (result) {
-
-                                        if (result.length > 0) {
-                                            $("#my-modal-setrole").find("input[type='checkbox']").each(function () {
-                                                var roleid = $(this).val();
-                                                for (var i = 0; i < result.length; i++) {
-                                                    if (roleid == $.trim(result[i].RoleID)) {
-                                                        $(this).prop("checked", true);
-                                                        break;
-                                                    }
-                                                    else {
-                                                        $(this).prop("checked", false);
-                                                    }
-                                                }                                             
-                                            });
-
-                                        }
-                                        else {
-                                            $("#my-modal-setrole").find("input[type='checkbox']").prop("checked", false);
-                                        }
-                                    },
-                                    error: function () {
-
                                     }
                                 });
                             });
@@ -278,44 +165,32 @@
                 bAutoWidth: false,//表格宽度自适应
                 processing: true, //等待加载效果
                 ajax: {
-                    url: '../User/Search',
+                    url: '../Button/Search',
                     type: 'POST',
                     dataType: 'json',
 
                     //添加额外的参数传给服务器
                     data: function (d) {
-                        d.username = $("#username").val();//用户名
+                        d.username = $("#btnname").val(); 
                     }
                 },
                 columns: [
                     {
-                        "data": "UserID",
+                        "data": "ID",
                         "sClass": "center",//显示样式
                         "render": function (data, type, row, meta) {
                             return ' <label class="pos-rel"><input type="checkbox" class="ace" data-id=' + data + ' /><span class="lbl"></span></label>';
                         }
                     },
                     {
-                        "data": "UserName",
+                        "data": "Name",
                         "render": function (data, type, row, meta) {
                             return '<a href="#">' + data + '</a>';
                         }
                     },
                     {
-                        "data": "RealName"
-                    },
-                    {
-                        "data": "State",
-                        "render": function (data, type, row, meta) {
-                            if (data == "0") {
-                                return '<span class="label label-sm label-warning">未授权</span>';
-                            } else if (data == "1") {
-                                return '<span class="label label-sm label-success">启用</span>';
-                            } else if (data == "2") {
-                                return '<span class="label label-sm label-inverse arrowed-in">禁用</span>';
-                            }
-                        }
-                    },
+                        "data": "Code"
+                    },                   
                     {
                         "data": "CreateDate",
                         "render": function (data, type, row, meta) {
@@ -356,18 +231,13 @@
             //新增-保存
             $("#btnAddSave").on("click", function () {
                 var data = {
-                    "UserName": $.trim($("#my-modal-add").find("input[name='txtusername']").val()),
-                    "UserPassword": $.trim($("#my-modal-add").find("input[name='txtpwd']").val()),
-                    "RealName": $.trim($("#my-modal-add").find("input[name='txtname']").val()),
-                    "Sex": $.trim($("#my-modal-add").find("input[name='gender']:checked").val()),
-                    "E_mail": $.trim($("#my-modal-add").find("input[name='txtemail']").val()),
-                    "Phone": $.trim($("#my-modal-add").find("input[name='txtphone']").val()),
-                    "QQ": $.trim($("#my-modal-add").find("input[name='txtqq']").val()),
-                    "Wechat": $.trim($("#my-modal-add").find("input[name='txtwechat']").val())
+                    "Name": $.trim($("#my-modal-add").find("input[name='txtbtnname']").val()),
+                    "Code": $.trim($("#my-modal-add").find("input[name='txtcode']").val()),
+                    "Sort": $.trim($("#my-modal-add").find("input[name='txtsort']").val())                  
                 };
                 $.ajax({
                     type: 'post',//可选get
-                    url: "../User/Add",
+                    url: "../Button/Add",
                     data: JSON.stringify(data),
                     contentType: "application/json", //必须有
                     dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
@@ -396,19 +266,14 @@
             //编辑-保存
             $("#btnEditSave").on("click", function () {
                 var data = {
-                    "UserID": $.trim($("#my-modal-edit").find("input[name='txtuserid']").val()),
-                    "UserName": $.trim($("#my-modal-edit").find("input[name='txtusername']").val()),
-                    "UserPassword": $.trim($("#my-modal-edit").find("input[name='txtpwd']").val()),
-                    "RealName": $.trim($("#my-modal-edit").find("input[name='txtname']").val()),
-                    "Sex": $.trim($("#my-modal-edit").find("input[name='gender']:checked").val()),
-                    "E_mail": $.trim($("#my-modal-edit").find("input[name='txtemail']").val()),
-                    "Phone": $.trim($("#my-modal-edit").find("input[name='txtphone']").val()),
-                    "QQ": $.trim($("#my-modal-edit").find("input[name='txtqq']").val()),
-                    "Wechat": $.trim($("#my-modal-edit").find("input[name='txtwechat']").val())
+                    "ID": $.trim($("#my-modal-edit").find("input[name='txtid']").val()),
+                    "Name": $.trim($("#my-modal-edit").find("input[name='txtbtnname']").val()),
+                    "Code": $.trim($("#my-modal-edit").find("input[name='txtcode']").val()),
+                    "Sort": $.trim($("#my-modal-edit").find("input[name='txtsort']").val()),               
                 };
                 $.ajax({
                     type: 'post',//可选get
-                    url: "../User/Edit",
+                    url: "../Button/Edit",
                     data: JSON.stringify(data),
                     contentType: "application/json", //必须有
                     dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
@@ -428,48 +293,6 @@
                     },
                     error: function () {
                         swal("保存失败!" + result.msg + "", {
-                            icon: "success",
-                        });
-                    }
-                });
-            });
-
-            //设置角色-保存
-            $("#btnSetSave").on("click", function () {
-                var userid = $("#my-modal-setrole").find("input[name='txtuserid']").val();
-                var roleids = "";
-                $("#my-modal-setrole").find("input[type='checkbox']").each(function () {
-                    if ($(this).prop("checked")) {
-                        roleids += "," + $(this).val();
-                    }
-                });
-
-                var data = {
-                    "userid": userid,
-                    "roleids": roleids
-                };
-                $.ajax({
-                    type: 'post',//可选get
-                    url: "../User/SetRole",
-                    data: JSON.stringify(data),
-                    contentType: "application/json", //必须有
-                    dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
-                    success: function (result) {
-                        if (result.success) {
-                            swal("设置成功!", {
-                                icon: "success",
-                            });
-                            //$('#form-role')[0].reset();
-                            myTable.draw(false);
-                        }
-                        else {
-                            swal("设置失败!" + result.msg + "", {
-                                icon: "error",
-                            });
-                        }
-                    },
-                    error: function () {
-                        swal("设置失败!" + result.msg + "", {
                             icon: "success",
                         });
                     }

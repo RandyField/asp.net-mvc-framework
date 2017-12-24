@@ -1,0 +1,60 @@
+﻿@{
+    var btnlist = this.ViewData["PageBtnList"] != null ? this.ViewData["PageBtnList"] as List<Model.PageButtonModel> : new List<Model.PageButtonModel>();
+}
+<!--操作按钮-->
+<script type="text/html" id="operation">
+    <div class="hidden-sm hidden-xs action-buttons">
+        @if (btnlist.Exists(p => p.Code.Contains("edit")))
+        {
+            @Html.Partial("_View.Button/_View.Button.md.Edit")
+        }
+        @if (btnlist.Exists(p => p.Code.Contains("delete")))
+        {
+            @Html.Partial("_View.Button/_View.Button.md.Delete")
+        }
+        @if (btnlist.Exists(p => p.Code.Contains("setrole")))
+        {
+            @Html.Partial("_View.Button/_View.Button.md.setrole")
+        }
+        @if (btnlist.Exists(p => p.Code.Contains("lock")))
+        {
+            @Html.Partial("_View.Button/_View.Button.md.Lock")
+        }
+        @if (btnlist.Exists(p => p.Code.Contains("start")))
+        {
+            @Html.Partial("_View.Button/_View.Button.md.Unlock")
+        }
+    </div>
+
+    <div class="hidden-md hidden-lg">
+        <div class="inline pos-rel">
+            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+            </button>
+
+            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                @if (btnlist.Exists(p => p.Code.Contains("edit")))
+                {
+                    @Html.Partial("_View.Button/_View.Button.sm.Edit")
+                }
+                @if (btnlist.Exists(p => p.Code.Contains("delete")))
+                {
+                    @Html.Partial("_View.Button/_View.Button.sm.Delete")
+                }
+                @if (btnlist.Exists(p => p.Code.Contains("setrole")))
+                {
+                    @Html.Partial("_View.Button/_View.Button.sm.setrole")
+                }
+                @if (btnlist.Exists(p => p.Code.Contains("lock")))
+                {
+                    @Html.Partial("_View.Button/_View.Button.sm.Lock")
+                }
+                @if (btnlist.Exists(p => p.Code.Contains("start")))
+                {
+                    @Html.Partial("_View.Button/_View.Button.sm.Unlock")
+                }
+
+            </ul>
+        </div>
+    </div>
+</script>

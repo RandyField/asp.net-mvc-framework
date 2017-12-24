@@ -137,6 +137,8 @@
     <Compile Include="Attribute\CustomExceptionAttribute.cs" />
     <Compile Include="Attribute\RoleAuthorizeAttribute.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ButtonController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -271,6 +273,7 @@
     <Content Include="assets\js\select2.min.js" />
     <Content Include="assets\js\spin.js" />
     <Content Include="assets\js\spinbox.min.js" />
+    <Content Include="assets\js\sweetalert.min.js" />
     <Content Include="assets\js\tree.min.js" />
     <Content Include="assets\js\wizard.min.js" />
     <Content Include="assets\swf\flashExport.swf" />
@@ -402,6 +405,11 @@
     <Content Include="Views\Shared\_View.Button\_View.Button.md.Lock.cshtml" />
     <Content Include="Views\Shared\_View.Button\_View.Button.sm.Lock.cshtml" />
     <Content Include="Views\User\Modal.Setrole.cshtml" />
+    <Content Include="Views\Shared\_View.Button\_View.Button.Operation.cshtml" />
+    <Content Include="Views\Button\Index.cshtml" />
+    <Content Include="Views\Button\Modal.Add.cshtml" />
+    <Content Include="Views\Button\Modal.Edit.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
