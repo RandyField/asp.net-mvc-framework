@@ -53,6 +53,15 @@
     <None Include="权限系统设计-sqlserver.pdm" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="JS模块化-前端\a-js原始写法.js" />
+    <Content Include="JS模块化-前端\b-js对象写法.js" />
+    <Content Include="JS模块化-前端\c-js立即执行函数写法.js" />
+    <Content Include="JS模块化-前端\d-js放大模式.js" />
+    <Content Include="JS模块化-前端\e-js宽放大模式.js" />
+    <Content Include="JS模块化-前端\f-输入全局变量.js" />
+    <Content Include="JS模块化-前端\g-模块的规范.js" />
+    <Content Include="JS模块化-前端\h-require.js" />
+    <Content Include="JS模块化-前端\i-AMD模块的写法.js" />
     <Content Include="Randy Admin数据库设计.sql" />
     <Content Include="分页存储过程.sql" />
     <Content Include="数据-设计脚本.sql" />
