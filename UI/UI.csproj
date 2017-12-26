@@ -269,6 +269,9 @@
     <Content Include="assets\js\markdown.min.js" />
     <Content Include="assets\js\moment.min.js" />
     <Content Include="assets\js\prettify.min.js" />
+    <Content Include="assets\js\require.config.js" />
+    <Content Include="assets\js\require.js" />
+    <Content Include="assets\js\require.min.js" />
     <Content Include="assets\js\respond.min.js" />
     <Content Include="assets\js\select2.min.js" />
     <Content Include="assets\js\spin.js" />
@@ -346,6 +349,7 @@
     <Content Include="assets\lang\jQuery.Datatable.lang.Chinese.json" />
     <Content Include="jquery-datatable研究备份\Index.cshtml" />
     <Content Include="Log4Net.config" />
+    <Content Include="jquery-datatable研究备份\Index-edit-add-save-tip.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />

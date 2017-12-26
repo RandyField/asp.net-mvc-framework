@@ -1,0 +1,633 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.content.cshtml";
+    var PoitionList = this.ViewData["PoitionList"] != null ? this.ViewData["PoitionList"] as List<Model.PositionModel> : new List<Model.PositionModel>();
+}
+
+<div class="row">
+    <div class='col-xs-12'>
+        <h3 class="header smaller lighter blue">广州滚动字幕配置管理</h3>
+        <div id='sample-table-2_filter' class='dataTables_filter'>
+            <label>
+                屏幕点位:
+                <select class="sample-table-2" id="position" name="position">
+                    <option value="">---请选择屏幕点位---</option>
+                    @foreach (var item in PoitionList)
+                    {
+                        <option value="@item.computername">@item.position</option>
+                    }
+
+                </select>
+            </label>
+            @Html.Partial("_View.Button/_View.Button.search")
+            @Html.Partial("_View.Button/_View.Button.add")
+        </div>
+        @Html.Partial("Modal.Add")
+        @Html.Partial("Modal.Edit")
+        <div class="col-xs-12">
+            <h3 class="header smaller lighter blue">广州滚动字幕配置列表</h3>
+
+            <div class="clearfix">
+                <div class="pull-right tableTools-container"></div>
+            </div>
+
+            <div class="table-header">
+                结果
+            </div>
+
+            <!-- div.table-responsive -->
+            <!-- div.dataTables_borderWrap -->
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="center">
+                                <label class="pos-rel">
+                                    <input type="checkbox" class="ace" />
+                                    <span class="lbl"></span>
+                                </label>
+                            </th>
+                            <th>计算机名</th>
+                            <th>地铁线路</th>
+                            <th class="hidden-480">站点名称</th>
+                            <th>标题</th>
+                            <th class="hidden-480">
+                                <i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>播放开始时间
+                            </th>
+                            <th class="hidden-480">
+                                <i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>播放结束时间
+                            </th>
+                            <th class="hidden-480">
+                                <i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>发布时间
+                            </th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <!-- page specific plugin scripts -->
+    <script src="~/assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/assets/js/jquery.dataTables.bootstrap.min.js"></script>
+    <script src="~/assets/js/dataTables.buttons.min.js"></script>
+    <script src="~/assets/js/buttons.flash.min.js"></script>
+    <script src="~/assets/js/buttons.html5.min.js"></script>
+    <script src="~/assets/js/buttons.print.min.js"></script>
+    <script src="~/assets/js/buttons.colVis.min.js"></script>
+    <script src="~/assets/js/dataTables.select.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/assets/My97DatePicker/WdatePicker.js"></script>
+
+    <script type="text/javascript">
+        jQuery(function ($) {
+
+            //initiate dataTables plugin
+            var myTable =
+            $('#dynamic-table')
+                .on('draw.dt', function () {
+                    $("a[data-type='operation']").each(function () {
+                        var id = $(this).parents("tr").find("td").eq(0).find("input").attr("data-id");
+                        //删除
+                        if ($(this).attr("data-title") == "Delete") {
+                            $(this).on("click", function () {
+
+                                //swal提示
+                                swal({
+                                    title: "提示！",
+                                    text: "确认删除？",
+                                    icon: "warning",
+                                    dangerMode: true,
+                                    buttons: ["取消", "确定"]
+                                }).then(function (willDelete) {
+
+                                    //确认删除
+                                    if (willDelete) {
+                                        var data = {};
+                                        data["id"] = id;
+                                        $.ajax({
+                                            type: 'post',//可选get
+                                            url: "../Note/Delet",
+                                            data: JSON.stringify(data),
+                                            contentType: "application/json", //必须有
+                                            dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
+                                            success: function (result) {
+                                                if (result.success) {
+                                                    swal("删除成功!", {
+                                                        icon: "success",
+                                                    });
+                                                    myTable.draw(false);
+                                                }
+                                                else {
+                                                    swal("删除失败!" + result.msg + "", {
+                                                        icon: "error",
+                                                    });
+                                                }
+                                            },
+                                            error: function () {
+                                                swal("删除失败!", {
+                                                    icon: "error",
+                                                });
+                                            }
+                                        });
+
+                                    }
+                                    else {
+                                        swal("删除已取消！", {
+                                            icon: "success",
+                                        });
+                                    }
+
+                                });
+                            });
+                        }
+                            //编辑
+                        else if ($(this).attr("data-title") == "Edit") {
+                            $(this).on("click", function () {
+                                var data = {};
+                                data["id"] = id;
+                                $.ajax({
+                                    type: 'post',//可选get
+                                    url: "../Note/GetNote",
+                                    data: JSON.stringify(data),
+                                    contentType: "application/json", //必须有
+                                    dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
+                                    success: function (result) {
+                                        $("#my-modal-edit").find("input[name='txtid']").val(result.id);
+                                        $("#my-modal-edit").find("input[name='txtcreatetime']").val(result.createtime);
+                                        $("#my-modal-edit").find("input[name='txtcreateusername']").val(result.createusername);
+                                        $("#my-modal-edit").find("input[name='txtcreateip']").val(result.createip);
+
+                                        $("#my-modal-edit").find("select[name='position']").val($.trim(result.computername));
+                                        $("#my-modal-edit").find("input[name='txttitle']").val(result.title);
+                                        $("#my-modal-edit").find("textarea[name='txtcontent']").val(result.content);
+                                        $("#my-modal-edit").find("input[name='txtstarttime']").val(result.starttime);
+                                        $("#my-modal-edit").find("input[name='txtendtime']").val(result.endtime);
+                                    },
+                                    error: function () {
+                                        swal("获取字幕信息失败!", {
+                                            icon: "error",
+                                        });
+                                    }
+                                });
+                            });
+                        }
+                    });
+                }) //表格绘制完成
+        //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+            .DataTable({
+                bAutoWidth: false,//表格宽度自适应
+                processing: true, //等待加载效果
+                ajax: {
+                    url: '../Note/Search',
+                    type: 'POST',
+                    dataType: 'json',
+
+                    //添加额外的参数传给服务器
+                    data: function (d) {
+                        d.computername = $("#position").val();//用户名
+                    }
+                },
+                columns: [
+                    {
+                        "data": "id",
+                        "sClass": "center",//显示样式
+                        "render": function (data, type, row, meta) {
+                            return ' <label class="pos-rel"><input type="checkbox" class="ace" data-id=' + data + ' /><span class="lbl"></span></label>';
+                        }
+                    },
+                    {
+                        "data": "computername",
+                        "render": function (data, type, row, meta) {
+                            return '<a href="#">' + data + '</a>';
+                        }
+                    },
+                    {
+                        "data": "linename"
+                    },
+                    {
+                        "data": "stationname"
+                    },
+                    {
+                        "data": "title"
+                    },
+                    {
+                        "data": "starttime",
+                        "render": function (data, type, row, meta) {
+                            return new Date(data)//处理时间显示
+                                                 .toLocaleString();
+                        }
+                    },
+                    {
+                        "data": "endtime",
+                        "render": function (data, type, row, meta) {
+                            return new Date(data)//处理时间显示
+                                                 .toLocaleString();
+                        }
+                    },
+                    {
+                        "data": "updatetime",
+                        "render": function (data, type, row, meta) {
+                            return new Date(data)//处理时间显示
+                                                 .toLocaleString();
+                        }
+                    },
+                    {
+                        "defaultContent": "",
+                        "render": function (data, type, row, meta) {
+                            return $("#operation").html();
+                        }
+                    }
+                ],
+                serverSide: true,  //开启服务器模式
+                searching: false,  //禁用搜索
+                ordering: false,   //禁用排序
+                "iDisplayLength": 5, //每页默认显示数据条数
+                "aLengthMenu": [
+                  [5, 15, 20, 50],
+                  [5, 15, 20, 50]
+                ],
+                language: {
+                    url: '../assets/lang/jQuery.Datatable.lang.Chinese.json'
+                }, //翻译成中文
+
+                select: {
+                    style: 'multi'
+                }
+            });
+
+            //查询-搜索
+            $("#searchBtn").on("click", function () {
+                myTable.draw();
+            });
+
+            //新增-保存
+            $("#btnAddSave").on("click", function () {
+                if ($.trim($("#my-modal-add").find("select[name='position']").val())=="") {
+                    swal("请选择屏幕点位!", {
+                        buttons: false,
+                        icon: "error",
+                        timer: 1000
+                    });
+                    return;
+                }
+
+                if ($.trim($("#my-modal-add").find("input[name='txttitle']").val())=="") {
+                    swal("标题不能为空!", {
+                        buttons: false,
+                        icon: "error",
+                        timer: 1000
+                    });
+                    return;
+                }
+
+                if ($.trim($("#my-modal-add").find("textarea[name='txtcontent']").val()) == "") {
+                    swal("内容不能为空!", {
+                        buttons: false,
+                        icon: "error",
+                        timer: 1000
+                    });
+                    return;
+                }
+
+                if ($.trim($("#my-modal-add").find("input[name='txtstarttime']").val()) == "") {
+                    swal("请指定播放开始时间!", {
+                        buttons: false,
+                        icon: "error",
+                        timer: 1000
+                    });
+                    return;
+                }
+
+                if ($.trim($("#my-modal-add").find("input[name='txtendtime']").val()) == "") {
+                    swal("请指定播放结束时间!", {
+                        buttons: false,
+                        icon: "error",
+                        timer: 1000
+                    });
+                    return;
+                }
+
+                var data = {
+                    "computername": $.trim($("#my-modal-add").find("select[name='position']").val()),
+                    "title": $.trim($("#my-modal-add").find("input[name='txttitle']").val()),
+                    "content": $.trim($("#my-modal-add").find("textarea[name='txtcontent']").val()),
+                    "starttime": $.trim($("#my-modal-add").find("input[name='txtstarttime']").val()),
+                    "endtime": $.trim($("#my-modal-add").find("input[name='txtendtime']").val())
+                };
+                $.ajax({
+                    type: 'post',//可选get
+                    url: "../Note/Add",
+                    data: JSON.stringify(data),
+                    contentType: "application/json", //必须有
+                    dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
+                    success: function (result) {
+                        if (result.success) {
+                            swal("保存成功!", {
+                                icon: "success",
+                            });
+                            $('#form-add')[0].reset();
+                            myTable.draw(false);
+                        }
+                        else {
+                            swal("保存失败!" + result.msg + "", {
+                                icon: "error",
+                            });
+                        }
+                    },
+                    error: function () {
+                        swal("保存失败!" + result.msg + "", {
+                            icon: "success",
+                        });
+                    }
+                });
+            });
+
+            //编辑-保存
+            $("#btnEditSave").on("click", function () {
+                if ($.trim($("#my-modal-edit").find("select[name='position']").val()) == "") {
+                    swal("请选择屏幕点位!", {
+                        buttons: false,
+                        icon: "error",
+                        timer: 1000
+                    });
+                    return;
+                }
+
+                if ($.trim($("#my-modal-edit").find("input[name='txttitle']").val()) == "") {
+                    swal("标题不能为空!", {
+                        buttons: false,
+                        icon: "error",
+                        timer: 1000
+                    });
+                    return;
+                }
+
+                if ($.trim($("#my-modal-edit").find("textarea[name='txtcontent']").val()) == "") {
+                    swal("内容不能为空!", {
+                        buttons: false,
+                        icon: "error",
+                        timer: 1000
+                    });
+                    return;
+                }
+
+                if ($.trim($("#my-modal-edit").find("input[name='txtstarttime']").val()) == "") {
+                    swal("请指定播放开始时间!", {
+                        buttons: false,
+                        icon: "error",
+                        timer: 1000
+                    });
+                    return;
+                }
+
+                if ($.trim($("#my-modal-edit").find("input[name='txtendtime']").val()) == "") {
+                    swal("请指定播放结束时间!", {
+                        buttons: false,
+                        icon: "error",
+                        timer: 1000
+                    });
+                    return;
+                }
+
+                var data = {
+                    "createip": $.trim($("#my-modal-edit").find("input[name='txtcreateip']").val()),
+                    "createusername": $.trim($("#my-modal-edit").find("input[name='txtcreateusername']").val()),
+                    "createtime": $.trim($("#my-modal-edit").find("input[name='txtcreatetime']").val()),
+                    "id": $.trim($("#my-modal-edit").find("input[name='txtid']").val()),
+
+                    "computername": $.trim($("#my-modal-edit").find("select[name='position']").val()),
+                    "title": $.trim($("#my-modal-edit").find("input[name='txttitle']").val()),
+                    "content": $.trim($("#my-modal-edit").find("textarea[name='txtcontent']").val()),
+                    "starttime": $.trim($("#my-modal-edit").find("input[name='txtstarttime']").val()),
+                    "endtime": $.trim($("#my-modal-edit").find("input[name='txtendtime']").val())
+                };
+                $.ajax({
+                    type: 'post',//可选get
+                    url: "../Note/Edit",
+                    data: JSON.stringify(data),
+                    contentType: "application/json", //必须有
+                    dataType: 'json',//服务器返回的数据类型 可选XML ,Json jsonp script htmltext等
+                    success: function (result) {
+                        if (result.success) {
+                            swal("保存成功!", {
+                                icon: "success",
+                            });
+                            $('#form-add')[0].reset();
+                            myTable.draw(false);
+                        }
+                        else {
+                            swal("保存失败!" + result.msg + "", {
+                                icon: "error",
+                            });
+                        }
+                    },
+                    error: function () {
+                        swal("保存失败!" + result.msg + "", {
+                            icon: "success",
+                        });
+                    }
+                });
+            });
+
+            $.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
+
+            new $.fn.dataTable.Buttons(myTable, {
+                buttons: [
+                  {
+                      "extend": "colvis",
+                      "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>显示/隐藏 列</span>",
+                      "className": "btn btn-white btn-primary btn-bold",
+                      columns: ':not(:first):not(:last)'
+                  },
+                  {
+                      "extend": "copy",
+                      "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>复制到剪切板</span>",
+                      "className": "btn btn-white btn-primary btn-bold"
+                  },
+                  {
+                      "extend": "csv",
+                      "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>导出CSV</span>",
+                      "className": "btn btn-white btn-primary btn-bold"
+                  },
+                  {
+                      "extend": "excel",
+                      "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>导出Excel</span>",
+                      "className": "btn btn-white btn-primary btn-bold"
+                  },
+                  {
+                      "extend": "pdf",
+                      "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>导出PDF</span>",
+                      "className": "btn btn-white btn-primary btn-bold"
+                  },
+                  {
+                      "extend": "print",
+                      "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>打印</span>",
+                      "className": "btn btn-white btn-primary btn-bold",
+                      autoPrint: false,
+                      message: 'This print was produced using the Print button for DataTables'
+                  }
+                ]
+            });
+            myTable.buttons().container().appendTo($('.tableTools-container'));
+
+            //style the message box
+            var defaultCopyAction = myTable.button(1).action();
+            myTable.button(1).action(function (e, dt, button, config) {
+                defaultCopyAction(e, dt, button, config);
+                $('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
+            });
+
+
+            var defaultColvisAction = myTable.button(0).action();
+            myTable.button(0).action(function (e, dt, button, config) {
+
+                defaultColvisAction(e, dt, button, config);
+
+
+                if ($('.dt-button-collection > .dropdown-menu').length == 0) {
+                    $('.dt-button-collection')
+                    .wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
+                    .find('a').attr('href', '#').wrap("<li />")
+                }
+                $('.dt-button-collection').appendTo('.tableTools-container .dt-buttons')
+            });
+
+            ////
+
+            setTimeout(function () {
+                $($('.tableTools-container')).find('a.dt-button').each(function () {
+                    var div = $(this).find(' > div').first();
+                    if (div.length == 1) div.tooltip({ container: 'body', title: div.parent().text() });
+                    else $(this).tooltip({ container: 'body', title: $(this).text() });
+                });
+            }, 500);
+
+            myTable.on('select', function (e, dt, type, index) {
+                if (type === 'row') {
+                    $(myTable.row(index).node()).find('input:checkbox').prop('checked', true);
+                }
+            });
+
+            myTable.on('deselect', function (e, dt, type, index) {
+                if (type === 'row') {
+                    $(myTable.row(index).node()).find('input:checkbox').prop('checked', false);
+                }
+            });
+
+            /////////////////////////////////
+            //table checkboxes
+            $('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
+
+            //select/deselect all rows according to table header checkbox
+            $('#dynamic-table > thead > tr > th input[type=checkbox], #dynamic-table_wrapper input[type=checkbox]').eq(0).on('click', function () {
+                var th_checked = this.checked;//checkbox inside "TH" table header
+
+                $('#dynamic-table').find('tbody > tr').each(function () {
+                    var row = this;
+                    if (th_checked) myTable.row(row).select();
+                    else myTable.row(row).deselect();
+                });
+            });
+
+            //select/deselect a row when the checkbox is checked/unchecked
+            $('#dynamic-table').on('click', 'td input[type=checkbox]', function () {
+                var row = $(this).closest('tr').get(0);
+                if (this.checked) myTable.row(row).deselect();
+                else myTable.row(row).select();
+            });
+
+            $(document).on('click', '#dynamic-table .dropdown-toggle', function (e) {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                e.preventDefault();
+            });
+
+            //And for the first simple table, which doesn't have TableTools or dataTables
+            //select/deselect all rows according to table header checkbox
+            var active_class = 'active';
+            $('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function () {
+                var th_checked = this.checked;//checkbox inside "TH" table header
+
+                $(this).closest('table').find('tbody > tr').each(function () {
+                    var row = this;
+                    if (th_checked) $(row).addClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', true);
+                    else $(row).removeClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', false);
+                });
+            });
+
+            //select/deselect a row when the checkbox is checked/unchecked
+            $('#simple-table').on('click', 'td input[type=checkbox]', function () {
+                var $row = $(this).closest('tr');
+                if ($row.is('.detail-row ')) return;
+                if (this.checked) $row.addClass(active_class);
+                else $row.removeClass(active_class);
+            });
+
+
+            /********************************/
+            //add tooltip for small view action buttons in dropdown menu
+            $('[data-rel="tooltip"]').tooltip({ placement: tooltip_placement });
+
+            //tooltip placement on right or left
+            function tooltip_placement(context, source) {
+                var $source = $(source);
+                var $parent = $source.closest('table')
+                var off1 = $parent.offset();
+                var w1 = $parent.width();
+
+                var off2 = $source.offset();
+                //var w2 = $source.width();
+
+                if (parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2)) return 'right';
+                return 'left';
+            }
+
+
+            /***************/
+            $('.show-details-btn').on('click', function (e) {
+                e.preventDefault();
+                $(this).closest('tr').next().toggleClass('open');
+                $(this).find(ace.vars['.icon']).toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up');
+            });
+            /***************/
+
+
+            /**
+            //add horizontal scrollbars to a simple table
+            $('#simple-table').css({'width':'2000px', 'max-width': 'none'}).wrap('<div style="width: 1000px;" />').parent().ace_scroll(
+              {
+                horizontal: true,
+                styleClass: 'scroll-top scroll-dark scroll-visible',//show the scrollbars on top(default is bottom)
+                size: 2000,
+                mouseWheelLock: true
+              }
+            ).css('padding-top', '12px');
+            */
+
+
+        })
+    </script>
+}
+
+<!--操作按钮-->
+<script type="text/html" id="operation">
+    <div class="hidden-sm hidden-xs action-buttons">
+        @Html.Partial("_View.Button/_View.Button.md.Edit")
+        @Html.Partial("_View.Button/_View.Button.md.Delete")
+    </div>
+
+    <div class="hidden-md hidden-lg">
+        <div class="inline pos-rel">
+            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+            </button>
+
+            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                @Html.Partial("_View.Button/_View.Button.sm.Edit")
+                @Html.Partial("_View.Button/_View.Button.sm.Delete")
+            </ul>
+        </div>
+    </div>
+</script>
