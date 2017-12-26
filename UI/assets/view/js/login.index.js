@@ -1,7 +1,8 @@
 ﻿var self_login = function () {
     $("#userLogin").click(function () {
         $("#userLogin").attr("disabled", "disabled");
-        //$("#userLogin").html("正在登录...");
+        $("#userLogin").find("span").html("正在登录...");
+        $("#loading").show();
         var loginNum = 0;
 
         var data = {
@@ -20,6 +21,7 @@
 
                     //$("#code").attr("style", "display:none");
                     $("#userLogin").removeAttr("disabled");
+                    $("#loading").hide();
                     //$("#userLogin").html("登 录");
                     //self_errorHidden();
                     loginNum = 0;
@@ -54,4 +56,14 @@
             }
         });
     });
-}();
+};
+
+// 初始化事件
+var self_init = function () {  
+    self_login();
+}
+
+// 加载事件
+$(function () {
+    self_init();
+})
