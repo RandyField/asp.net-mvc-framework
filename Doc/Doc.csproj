@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="JS模块化-前端\src.zip" />
     <None Include="web.zip" />
     <None Include="Workspace.sws" />
     <None Include="数据权限控制设计.pdm" />
