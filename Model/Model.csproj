@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GoodsModel.cs" />
     <Compile Include="jqDatatable.cs" />
     <Compile Include="PageButtonModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
