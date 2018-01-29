@@ -1,0 +1,36 @@
+1、首先我们需要在用户登陆的时候，获取对应用户的数据权限内容，然后把它转化为我们需要的信息，
+(Session,Cookies)
+2、为了实现数据权限的控制，我们需要在通用的权限系统里面保存好对应角色具有哪些组织机构的数据权限，然后在应用系统中调用API进行过滤数据处理即可。
+3、==
+
+
+
+
+
+
+
+界面控制逻辑是权限的一部分，它可以控制任意到任意表，任意行。
+
+权限可以简单描述为：
+某某主体 在 某某领域 有 某某权限
+1，主体可以是用户，可以是角色，也可以是一个部门
+2， 领域可以是一个模块，可以是一个页面，也可以是页面上的按钮
+3， 权限可以是“可见”，可以是“只读”，也可以是“可用”(如按钮可以点击)
+其实就是Who、What、How的问题
+
+领域可不仅仅是模块，页面，按钮，而是一切任意东西-What
+
+
+
+
+想有某些部门或者某个人只有查看自己做的合同,有些领导可以查看所有的合同..这一块怎么灵活控制?求解?
+
+这个属于数据层面上的权限控制，个人只能看到自己的合同，可能需要在做合同的时候，往CF_Privilege表插入一条记录，比如：PrivilegeMaster = 'User',PrivilegeMasterValue = @CurrentUserID
+,PrivilegeAccess = 'Subcontract',PrivilegeAccessValue = @SubcontractID
+每个合同总会有一个合同类别，比如施工合同、设计合同，要想领导可以查看所有的合同，只需要给领导分配一个查看合同分类下所有合同的权限，比如：
+PrivilegeMaster = 'User',PrivilegeMasterValue = @UserID
+,PrivilegeAccess = 'SubcontractType',PrivilegeAccessValue = @SubcontractTypeID
+而在界面上列出合同列表的时候，可能就需要对视图处理一下，比如:
+WHERE SubcontractID IN(SELECT DISTINCT PrivilegeAccessValue FROM dbo.CF_Privilege WHERE PrivilegeMaster = 'User' AND PrivilegeMasterValue = @CurrentUserID
+AND PrivilegeAccess = 'Subcontract' )
+这个只是一个思路，仅供参考

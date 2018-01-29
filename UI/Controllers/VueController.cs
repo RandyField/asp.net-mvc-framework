@@ -32,5 +32,7 @@ namespace UI.Controllers
 
             return JsonConvert.SerializeObject(GoodsList);
         }
+
+
     }
 }
